@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
 import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
 import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
+import 'package:qplayer/provider/playerFunctionsProvider.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -46,12 +47,13 @@ class QPlayer extends StatefulWidget {
 
 class _QPlayerState extends State<QPlayer> {
   PlayerProvider playerProvider = PlayerProvider();
-
+  PlayerFunctionsProvider playerFunctionsProvider = PlayerFunctionsProvider();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: playerProvider),
+        ChangeNotifierProvider.value(value: playerFunctionsProvider),
       ],
       child: Stack(
         children: [
@@ -90,7 +92,8 @@ class _QPlayerState extends State<QPlayer> {
       playerProvider.videoPlayerController.play();
       playerProvider.videoPlayerController.initialize();
     });
-
+    ///make player provider access to player function provider
+    //playerFunctionsProvider.setPlayerProvider(playerProvider);
   }
 
   @override
