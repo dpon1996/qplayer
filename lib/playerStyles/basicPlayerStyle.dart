@@ -35,6 +35,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     left: 0,
                     right: 0,
                     child: Container(
+                      alignment: Alignment.center,
                       child: IconButton(
                         onPressed: () {
                           _playerFunctionsProvider.playControl();
