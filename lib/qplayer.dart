@@ -24,6 +24,7 @@ class _QPlayerState extends State<QPlayer> {
     _videoPlayerController.addListener(() {
       setState(() {});
     });
+    _videoPlayerController.setLooping(true);
     _videoPlayerController.initialize();
   }
 }
