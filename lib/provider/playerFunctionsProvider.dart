@@ -12,6 +12,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   setPlayerProvider(provider) {
     playerProvider = provider;
+    ///
     Timer.periodic(Duration(milliseconds: 200), (timer) {
       if (playerProvider.videoPlayerController != null &&
           playerProvider.videoPlayerController.value != null) {
