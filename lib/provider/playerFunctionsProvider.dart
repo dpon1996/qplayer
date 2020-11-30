@@ -12,12 +12,15 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   setPlayerProvider(provider) {
     playerProvider = provider;
+    if (playerProvider.videoPlayerController != null &&
+        playerProvider.videoPlayerController.value != null) {
+      ///call this function after video init
+      ///video function visibility set to true
+      setFunctionVisibility();
 
-    ///call this function after video init
-    ///video function visibility set to true
-    setFunctionVisibility();
-    ///call play control
-    playControl();
+      ///call play control
+      playControl();
+    }
   }
 
   double getVideoProgressValue() {
