@@ -16,6 +16,9 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   setPlayerProvider(provider) {
     playerProvider = provider;
     ///
+    initializeVideo();
+    ///
+
     Timer.periodic(Duration(milliseconds: 200), (timer) {
       if (playerProvider.videoPlayerController != null &&
           playerProvider.videoPlayerController.value != null) {
@@ -56,7 +59,6 @@ class PlayerFunctionsProvider extends ChangeNotifier {
         playControlIcon = playerProvider.replayIcon;
       }
     }
-
     return progress;
   }
 
