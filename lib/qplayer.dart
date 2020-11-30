@@ -57,10 +57,7 @@ class _QPlayerState extends State<QPlayer> {
       ],
       child: Stack(
         children: [
-          InkWell(
-            onTap: () {},
-            child: VideoPlayer(playerProvider.videoPlayerController),
-          ),
+          VideoPlayer(playerProvider.videoPlayerController),
           playerStyleSelector(),
         ],
       ),
