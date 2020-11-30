@@ -85,31 +85,25 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      playerProvider.videoPlayerController =
-          VideoPlayerController.network(widget.videoUrl);
-      playerProvider.videoPlayerController.addListener(() {
-        setState(() {});
-      });
-      //playerProvider.videoPlayerController.play();
-      playerProvider.videoPlayerController.initialize();
+      ///make player provider access to player function provider
+      playerFunctionsProvider.setPlayerProvider(playerProvider);
+
+      ///set initial data of video the video player
+      playerProvider.setInitialData(
+        widget.videoUrl,
+        widget.videoTitle,
+        widget.videoThumbnail,
+        widget.iconsColor,
+        widget.progressColor,
+        widget.playIcon,
+        widget.pauseIcon,
+        widget.fullScreeIcon,
+        widget.replayIcon,
+        widget.functionKeyVisibleTime,
+      );
     });
 
-    ///make player provider access to player function provider
-    playerFunctionsProvider.setPlayerProvider(playerProvider);
 
-    ///set initial data of video the video player
-    playerProvider.setInitialData(
-      widget.videoUrl,
-      widget.videoTitle,
-      widget.videoThumbnail,
-      widget.iconsColor,
-      widget.progressColor,
-      widget.playIcon,
-      widget.pauseIcon,
-      widget.fullScreeIcon,
-      widget.replayIcon,
-      widget.functionKeyVisibleTime,
-    );
   }
 
   @override

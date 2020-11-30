@@ -34,14 +34,16 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        _playerFunctionsProvider.playControl();
-                      },
-                      icon: Icon(
-                        _playerFunctionsProvider.playControlIcon,
-                        size: 40,
-                        color: _playerProvider.iconsColor,
+                    child: Container(
+                      child: IconButton(
+                        onPressed: () {
+                          _playerFunctionsProvider.playControl();
+                        },
+                        icon: Icon(
+                          _playerFunctionsProvider.playControlIcon,
+                          size: 40,
+                          color: _playerProvider.iconsColor,
+                        ),
                       ),
                     ),
                   ),
