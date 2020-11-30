@@ -93,7 +93,7 @@ class _QPlayerState extends State<QPlayer> {
       playerProvider.videoPlayerController.initialize();
     });
     ///make player provider access to player function provider
-    //playerFunctionsProvider.setPlayerProvider(playerProvider);
+    playerFunctionsProvider.setPlayerProvider(playerProvider);
   }
 
   @override

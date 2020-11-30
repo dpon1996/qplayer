@@ -41,7 +41,11 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
               color: Colors.black12,
               child: Stack(
                 children: [
-                  Center(
+                  Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                     child: IconButton(
                       onPressed: () {
                         if (_playerProvider
@@ -53,7 +57,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                       },
                       icon: Icon(
                         Icons.play_circle_outline,
-                        size: 30,
+                        size: 40,
                         color: Colors.white,
                       ),
                     ),
