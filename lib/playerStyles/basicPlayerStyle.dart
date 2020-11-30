@@ -11,7 +11,6 @@ class BasicPlayerStyle extends StatefulWidget {
 }
 
 class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
-  bool visibility = false;
   PlayerProvider _playerProvider;
   PlayerFunctionsProvider _playerFunctionsProvider;
 
@@ -21,22 +20,12 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
     _playerFunctionsProvider = Provider.of<PlayerFunctionsProvider>(context);
     return InkWell(
       onTap: () {
-        _playerFunctionsProvider.getVideoProgressValue();
-        setState(() {
-          visibility = !visibility;
-        });
-        if (visibility) {
-          Timer(Duration(seconds: 2), () {
-            setState(() {
-              visibility = false;
-            });
-          });
-        }
+        _playerFunctionsProvider.setFunctionVisibility();
       },
       child: Container(
           alignment: Alignment.center,
           child: Visibility(
-            visible: visibility,
+            visible: _playerFunctionsProvider.functionVisibility,
             child: Container(
               color: Colors.black12,
               child: Stack(
@@ -69,7 +58,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     child: Column(
                       children: [
                         LinearProgressIndicator(
-                          value: _getVideoPosition(),
+                          value: _playerFunctionsProvider.getVideoProgressValue(),
                         )
                       ],
                     ),
@@ -81,8 +70,5 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
     );
   }
 
-  double _getVideoPosition() {
-    //if(_playerProvider.videoPlayerController.value.position)
-    return .5;
-  }
+
 }
