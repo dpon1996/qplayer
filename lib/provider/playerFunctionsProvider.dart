@@ -22,7 +22,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   double getVideoProgressValue() {
     int videoCurrentPosition = 0;
-    int totalDuration = 0;
+    int totalDuration = 1;
     if (playerProvider.videoPlayerController.value.initialized &&
         playerProvider.videoPlayerController.value != null) {
       videoCurrentPosition =
@@ -40,6 +40,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
         functionVisibility = false;
       });
     }
+    notifyListeners();
   }
 
   void playControl() {
@@ -50,5 +51,6 @@ class PlayerFunctionsProvider extends ChangeNotifier {
       playerProvider.videoPlayerController.play();
       playControlIcon = playerProvider.pauseIcon;
     }
+    notifyListeners();
   }
 }
