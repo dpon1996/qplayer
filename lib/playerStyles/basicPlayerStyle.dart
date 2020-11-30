@@ -40,7 +40,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                         _playerFunctionsProvider.playControl();
                       },
                       icon: Icon(
-                        Icons.play_circle_outline,
+                        _playerFunctionsProvider.playControlIcon,
                         size: 40,
                         color: _playerProvider.iconsColor,
                       ),
