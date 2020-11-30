@@ -26,20 +26,22 @@ class QPlayer extends StatefulWidget {
   final IconData fullScreeIcon;
   final IconData replayIcon;
   final PlayerStyle playerStyle;
+  final Duration functionKeyVisibleTime;
 
-  const QPlayer(
-      {Key key,
-      @required this.videoUrl,
-      this.videoTitle,
-      this.videoThumbnail,
-      this.iconsColor = Colors.red,
-      this.progressColor = Colors.red,
-      this.playIcon = Icons.play_circle_outline,
-      this.pauseIcon = Icons.pause,
-      this.fullScreeIcon = Icons.fullscreen,
-      this.replayIcon = Icons.replay,
-      this.playerStyle = PlayerStyle.basicStyle})
-      : super(key: key);
+  const QPlayer({
+    Key key,
+    @required this.videoUrl,
+    this.videoTitle,
+    this.videoThumbnail,
+    this.iconsColor = Colors.red,
+    this.progressColor = Colors.red,
+    this.playIcon = Icons.play_circle_outline,
+    this.pauseIcon = Icons.pause,
+    this.fullScreeIcon = Icons.fullscreen,
+    this.replayIcon = Icons.replay,
+    this.playerStyle = PlayerStyle.basicStyle,
+    this.functionKeyVisibleTime = const Duration(seconds: 2),
+  }) : super(key: key);
 
   @override
   _QPlayerState createState() => _QPlayerState();
@@ -48,6 +50,7 @@ class QPlayer extends StatefulWidget {
 class _QPlayerState extends State<QPlayer> {
   PlayerProvider playerProvider = PlayerProvider();
   PlayerFunctionsProvider playerFunctionsProvider = PlayerFunctionsProvider();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -55,12 +58,12 @@ class _QPlayerState extends State<QPlayer> {
         ChangeNotifierProvider.value(value: playerProvider),
         ChangeNotifierProvider.value(value: playerFunctionsProvider),
       ],
-      child: Stack(
+      child: playerProvider.videoPlayerController != null ?Stack(
         children: [
           VideoPlayer(playerProvider.videoPlayerController),
           playerStyleSelector(),
         ],
-      ),
+      ): Container(),
     );
   }
 
@@ -82,15 +85,31 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      playerProvider.videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+      playerProvider.videoPlayerController =
+          VideoPlayerController.network(widget.videoUrl);
       playerProvider.videoPlayerController.addListener(() {
         setState(() {});
       });
       playerProvider.videoPlayerController.play();
       playerProvider.videoPlayerController.initialize();
     });
+
     ///make player provider access to player function provider
     playerFunctionsProvider.setPlayerProvider(playerProvider);
+
+    ///set initial data of video the video player
+    playerProvider.setInitialData(
+      widget.videoUrl,
+      widget.videoTitle,
+      widget.videoThumbnail,
+      widget.iconsColor,
+      widget.progressColor,
+      widget.playIcon,
+      widget.pauseIcon,
+      widget.fullScreeIcon,
+      widget.replayIcon,
+      widget.functionKeyVisibleTime,
+    );
   }
 
   @override
