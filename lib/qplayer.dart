@@ -58,12 +58,12 @@ class _QPlayerState extends State<QPlayer> {
         ChangeNotifierProvider.value(value: playerProvider),
         ChangeNotifierProvider.value(value: playerFunctionsProvider),
       ],
-      child: playerProvider.videoPlayerController != null ?Stack(
+      child:Stack(
         children: [
           VideoPlayer(playerProvider.videoPlayerController),
           playerStyleSelector(),
         ],
-      ): Container(),
+      )
     );
   }
 
