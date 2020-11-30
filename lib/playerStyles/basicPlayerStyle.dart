@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/provider/playerFunctionsProvider.dart';
@@ -53,8 +52,11 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     child: Column(
                       children: [
                         LinearProgressIndicator(
-                          value: _playerFunctionsProvider.getVideoProgressValue(),
-                          valueColor: AlwaysStoppedAnimation<Color>(_playerProvider.progressColor),
+                          value:
+                              _playerFunctionsProvider.getVideoProgressValue(),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            _playerProvider.progressColor,
+                          ),
                           backgroundColor: Colors.grey[200],
                         )
                       ],
@@ -66,6 +68,4 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
           )),
     );
   }
-
-
 }
