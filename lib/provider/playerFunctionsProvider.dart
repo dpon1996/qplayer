@@ -16,8 +16,12 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   }
 
   double getVideoProgressValue(){
-    int videoCurrentPosition = playerProvider.videoPlayerController.value.position.inMicroseconds;
-    int totalDuration = playerProvider.videoPlayerController.value.duration.inMicroseconds;
+    int videoCurrentPosition = 0;
+    int totalDuration = 0;
+    if(playerProvider.videoPlayerController.value.initialized && playerProvider.videoPlayerController.value != null){
+      videoCurrentPosition = playerProvider.videoPlayerController.value.position.inMicroseconds;
+      totalDuration = playerProvider.videoPlayerController.value.duration.inMicroseconds;
+    }
     return videoCurrentPosition/totalDuration;
   }
 
