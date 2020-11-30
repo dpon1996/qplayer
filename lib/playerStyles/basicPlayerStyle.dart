@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +29,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
               color: Colors.black12,
               child: Stack(
                 children: [
+                  /// play pause icons
                   Positioned(
                     top: 0,
                     bottom: 0,
@@ -37,17 +37,12 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     right: 0,
                     child: IconButton(
                       onPressed: () {
-                        if (_playerProvider
-                            .videoPlayerController.value.isPlaying) {
-                          _playerProvider.videoPlayerController.pause();
-                        } else {
-                          _playerProvider.videoPlayerController.play();
-                        }
+                        _playerFunctionsProvider.playControl();
                       },
                       icon: Icon(
                         Icons.play_circle_outline,
                         size: 40,
-                        color: Colors.white,
+                        color: _playerProvider.iconsColor,
                       ),
                     ),
                   ),
@@ -59,6 +54,8 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                       children: [
                         LinearProgressIndicator(
                           value: _playerFunctionsProvider.getVideoProgressValue(),
+                          valueColor: AlwaysStoppedAnimation<Color>(_playerProvider.progressColor),
+                          backgroundColor: Colors.grey[200],
                         )
                       ],
                     ),

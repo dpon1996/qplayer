@@ -90,7 +90,7 @@ class _QPlayerState extends State<QPlayer> {
       playerProvider.videoPlayerController.addListener(() {
         setState(() {});
       });
-      playerProvider.videoPlayerController.play();
+      //playerProvider.videoPlayerController.play();
       playerProvider.videoPlayerController.initialize();
     });
 
