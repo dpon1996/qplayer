@@ -1,15 +1,24 @@
 library qplayer;
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
-import 'package:flutter/cupertino.dart';
+class QPlayer extends StatefulWidget {
+  @override
+  _QPlayerState createState() => _QPlayerState();
+}
 
-// /// A Calculator.
-// class Calculator {
-//   /// Returns [value] plus 1.
-//   int addOne(int value) => value + 1;
-// }
+class _QPlayerState extends State<QPlayer> {
+  VideoPlayerController _videoPlayerController;
+  @override
+  Widget build(BuildContext context) {
+    return VideoPlayer(_videoPlayerController);
+  }
 
-class QPlayer{
-  Widget qPlayer({msg = "data"}){
-    return Text(msg);
+  @override
+  void initState() {
+    super.initState();
+    _videoPlayerController = VideoPlayerController.network("https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4");
   }
 }
+
+
