@@ -5,10 +5,37 @@ import 'package:provider/provider.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
 
-class QPlayer extends StatefulWidget {
-  final videoUrl;
+enum PlayerStyle {
+  basicStyle,
+  mxStyle,
+  ybStyle,
+}
 
-  const QPlayer({Key key, this.videoUrl}) : super(key: key);
+class QPlayer extends StatefulWidget {
+  final String videoUrl;
+  final String videoTitle;
+  final String videoThumbnail;
+  final Color iconsColor;
+  final Color progressColor;
+  final IconData playIcon;
+  final IconData pauseIcon;
+  final IconData fullScreeIcon;
+  final IconData replayIcon;
+  final PlayerStyle playerStyle;
+
+  const QPlayer(
+      {Key key,
+      @required this.videoUrl,
+      this.videoTitle,
+      this.videoThumbnail,
+      this.iconsColor = Colors.red,
+      this.progressColor = Colors.red,
+      this.playIcon = Icons.play_circle_outline,
+      this.pauseIcon = Icons.pause,
+      this.fullScreeIcon = Icons.fullscreen,
+      this.replayIcon = Icons.replay,
+      this.playerStyle = PlayerStyle.basicStyle})
+      : super(key: key);
 
   @override
   _QPlayerState createState() => _QPlayerState();
@@ -27,15 +54,8 @@ class _QPlayerState extends State<QPlayer> {
       child: Stack(
         children: [
           InkWell(
-            onTap: (){
-              playerProvider.setColor(Colors.blue);
-            },
+            onTap: () {},
             child: VideoPlayer(_videoPlayerController),
-          ),
-          Container(
-            height: 200,
-            width: 200,
-            color: playerProvider.color,
           ),
         ],
       ),
@@ -51,5 +71,11 @@ class _QPlayerState extends State<QPlayer> {
     });
     _videoPlayerController.play();
     _videoPlayerController.initialize();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _videoPlayerController.dispose();
   }
 }
