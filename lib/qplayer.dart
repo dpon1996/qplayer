@@ -2,6 +2,9 @@ library qplayer;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
+import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
+import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
 
@@ -57,9 +60,24 @@ class _QPlayerState extends State<QPlayer> {
             onTap: () {},
             child: VideoPlayer(_videoPlayerController),
           ),
+          playerStyleSelector(),
         ],
       ),
     );
+  }
+
+  ///video player style selector ///
+  ///
+  // ignore: missing_return
+  Widget playerStyleSelector() {
+    switch (widget.playerStyle) {
+      case PlayerStyle.basicStyle:
+        return BasicPlayerStyle();
+      case PlayerStyle.mxStyle:
+        return MxPlayerStyle();
+      case PlayerStyle.ybStyle:
+        return YbPlayerStyle();
+    }
   }
 
   @override
