@@ -45,7 +45,6 @@ class QPlayer extends StatefulWidget {
 }
 
 class _QPlayerState extends State<QPlayer> {
-  VideoPlayerController _videoPlayerController;
   PlayerProvider playerProvider = PlayerProvider();
 
   @override
@@ -58,7 +57,7 @@ class _QPlayerState extends State<QPlayer> {
         children: [
           InkWell(
             onTap: () {},
-            child: VideoPlayer(_videoPlayerController),
+            child: VideoPlayer(playerProvider.videoPlayerController),
           ),
           playerStyleSelector(),
         ],
@@ -83,17 +82,20 @@ class _QPlayerState extends State<QPlayer> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController = VideoPlayerController.network(widget.videoUrl);
-    _videoPlayerController.addListener(() {
-      setState(() {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      playerProvider.videoPlayerController = VideoPlayerController.network(widget.videoUrl);
+      playerProvider.videoPlayerController.addListener(() {
+        setState(() {});
+      });
+      playerProvider.videoPlayerController.play();
+      playerProvider.videoPlayerController.initialize();
     });
-    _videoPlayerController.play();
-    _videoPlayerController.initialize();
+
   }
 
   @override
   void dispose() {
     super.dispose();
-    _videoPlayerController.dispose();
+    playerProvider.videoPlayerController.dispose();
   }
 }
