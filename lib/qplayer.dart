@@ -2,6 +2,7 @@ library qplayer;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qplayer/myPlayer.dart';
 import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
 import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
 import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
@@ -60,30 +61,11 @@ class _QPlayerState extends State<QPlayer> {
         ChangeNotifierProvider.value(value: playerProvider),
         ChangeNotifierProvider.value(value: playerFunctionsProvider),
       ],
-      child:Container(
-        alignment: Alignment.center,
-        color: Colors.black,
-        child: Stack(
-          children: [
-            if (playerProvider.videoPlayerController != null &&
-                playerProvider.videoPlayerController.value.initialized)
-              Center(
-                child: AspectRatio(
-                  aspectRatio: playerFunctionsProvider.aspectRatioVal,
-                  child: VideoPlayer(playerProvider.videoPlayerController),
-                ),
-              ),
-            if (playerProvider.videoPlayerController != null)
-              playerStyleSelector(),
-            if (playerProvider.videoPlayerController == null &&
-                widget.videoThumbnail != null)
-              Center(child: Image.network(widget.videoThumbnail)),
-          ],
-        ),
+      child: MyPlayer(
+        playerStyle: widget.playerStyle,
       ),
     );
   }
-
 
   ///video player style selector ///
   ///
@@ -103,7 +85,6 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-
       ///make player provider access to player function provider
       playerFunctionsProvider.setPlayerProvider(playerProvider);
 
