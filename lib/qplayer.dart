@@ -21,6 +21,7 @@ class QPlayer extends StatefulWidget {
   final String videoThumbnail;
   final Color iconsColor;
   final Color progressColor;
+  final Color loadingColor;
   final IconData playIcon;
   final IconData pauseIcon;
   final IconData fullScreeIcon;
@@ -35,6 +36,7 @@ class QPlayer extends StatefulWidget {
     this.videoThumbnail,
     this.iconsColor = Colors.red,
     this.progressColor = Colors.red,
+    this.loadingColor = Colors.white,
     this.playIcon = Icons.play_circle_outline,
     this.pauseIcon = Icons.pause,
     this.fullScreeIcon = Icons.fullscreen,
@@ -58,14 +60,30 @@ class _QPlayerState extends State<QPlayer> {
         ChangeNotifierProvider.value(value: playerProvider),
         ChangeNotifierProvider.value(value: playerFunctionsProvider),
       ],
-      child:Stack(
-        children: [
-          VideoPlayer(playerProvider.videoPlayerController),
-          playerStyleSelector(),
-        ],
-      )
+      child:Container(
+        alignment: Alignment.center,
+        color: Colors.black,
+        child: Stack(
+          children: [
+            if (playerProvider.videoPlayerController != null &&
+                playerProvider.videoPlayerController.value.initialized)
+              Center(
+                child: AspectRatio(
+                  aspectRatio: playerFunctionsProvider.aspectRatioVal,
+                  child: VideoPlayer(playerProvider.videoPlayerController),
+                ),
+              ),
+            if (playerProvider.videoPlayerController != null)
+              playerStyleSelector(),
+            if (playerProvider.videoPlayerController == null &&
+                widget.videoThumbnail != null)
+              Center(child: Image.network(widget.videoThumbnail)),
+          ],
+        ),
+      ),
     );
   }
+
 
   ///video player style selector ///
   ///
@@ -85,25 +103,25 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
       ///make player provider access to player function provider
       playerFunctionsProvider.setPlayerProvider(playerProvider);
 
       ///set initial data of video the video player
       playerProvider.setInitialData(
-        widget.videoUrl,
-        widget.videoTitle,
-        widget.videoThumbnail,
-        widget.iconsColor,
-        widget.progressColor,
-        widget.playIcon,
-        widget.pauseIcon,
-        widget.fullScreeIcon,
-        widget.replayIcon,
-        widget.functionKeyVisibleTime,
+        videoUrl: widget.videoUrl,
+        videoTitle: widget.videoTitle,
+        videoThumbnail: widget.videoThumbnail,
+        iconsColor: widget.iconsColor,
+        progressColor: widget.progressColor,
+        playIcon: widget.playIcon,
+        pauseIcon: widget.pauseIcon,
+        fullScreeIcon: widget.fullScreeIcon,
+        replayIcon: widget.replayIcon,
+        functionKeyVisibleTime: widget.functionKeyVisibleTime,
+        loadingColor: widget.loadingColor,
       );
     });
-
-
   }
 
   @override

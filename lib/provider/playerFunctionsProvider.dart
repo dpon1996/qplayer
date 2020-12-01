@@ -6,20 +6,24 @@ import 'package:video_player/video_player.dart';
 
 class PlayerFunctionsProvider extends ChangeNotifier {
   PlayerProvider playerProvider;
-
+  VideoPlayerController vdoCtrl;
   bool functionVisibility = false;
 
   IconData playControlIcon;
 
-  bool buffering = false;
+  bool bufferLoading = false;
+
+  bool isVideoEnd = false;
+
+  double aspectRatioVal = 16 / 9;
+
+  DurationRange videoBuffered = DurationRange(Duration() , Duration());
 
   setPlayerProvider(provider) {
     playerProvider = provider;
-    ///
-    initializeVideo();
-    ///
 
     Timer.periodic(Duration(milliseconds: 200), (timer) {
+      initializeVideo();
       if (playerProvider.videoPlayerController != null &&
           playerProvider.videoPlayerController.value != null) {
         ///call this function after video init
@@ -34,38 +38,59 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     });
   }
 
-  void initializeVideo(){
+  void initializeVideo()async{
+    videoBuffered = DurationRange(Duration() , Duration());
     playerProvider.videoPlayerController = VideoPlayerController.network(playerProvider.videoUrl);
     playerProvider.videoPlayerController.addListener(() {
-      buffering = playerProvider.videoPlayerController.value.isBuffering;
+      isVideoEndCheck();
       notifyListeners();
+      checkBufferLoading();
     });
-    playerProvider.videoPlayerController.initialize();
+    await playerProvider.videoPlayerController.initialize();
+    aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
+    await playerProvider.videoPlayerController.play();
     notifyListeners();
   }
 
-  double getVideoProgressValue() {
-    int videoCurrentPosition = 0;
-    int totalDuration = 1;
-    double progress = 0;
+  isVideoEndCheck() {
+    if(playerProvider.videoPlayerController.value.position == playerProvider.videoPlayerController.value.duration){
+      isVideoEnd = true;
+      playControlIcon = playerProvider.replayIcon;
+    }else{
+      isVideoEnd = false;
+    }
+    notifyListeners();
+  }
+
+  double getVideoDuration(){
+    int videoDuration = 1;
     if (playerProvider.videoPlayerController.value.initialized &&
         playerProvider.videoPlayerController.value != null) {
-      videoCurrentPosition =
-          playerProvider.videoPlayerController.value.position.inMicroseconds;
-      totalDuration =
-          playerProvider.videoPlayerController.value.duration.inMicroseconds;
-      progress = videoCurrentPosition / totalDuration;
-      if(progress >= 1){
-        playControlIcon = playerProvider.replayIcon;
-      }
+      videoDuration = playerProvider.videoPlayerController.value.duration.inMilliseconds;
     }
-    return progress;
+    return videoDuration.toDouble();
+  }
+
+  double currentVideoPosition(){
+    int videoPosition = 1;
+    if (playerProvider.videoPlayerController.value.initialized &&
+        playerProvider.videoPlayerController.value != null) {
+      videoPosition = playerProvider.videoPlayerController.value.position.inMilliseconds;
+    }
+    return videoPosition.toDouble();
+  }
+
+  seekVideoPosition(double val){
+    functionVisibility = true;
+    notifyListeners();
+    playerProvider.videoPlayerController.seekTo(Duration(milliseconds: val.toInt()));
+    print(Duration(milliseconds: val.toInt()));
   }
 
   void setFunctionVisibility() {
     functionVisibility = !functionVisibility;
     if (functionVisibility) {
-      Timer(Duration(seconds: 2), () {
+      Timer(playerProvider.functionKeyVisibleTime, () {
         functionVisibility = false;
       });
     }
@@ -73,8 +98,9 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   }
 
   void playControl() {
-    if(getVideoProgressValue() >= 1){
-     print("replay clicked");
+    if(isVideoEnd){
+      initializeVideo();
+      playControlIcon = playerProvider.pauseIcon;
     }
     else if (playerProvider.videoPlayerController.value.isPlaying) {
       playerProvider.videoPlayerController.pause();
@@ -82,6 +108,29 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     } else {
       playerProvider.videoPlayerController.play();
       playControlIcon = playerProvider.pauseIcon;
+    }
+    notifyListeners();
+  }
+
+  checkBufferLoading() {
+    VideoPlayerController vdoCtrl = playerProvider.videoPlayerController;
+    if(playerProvider.videoPlayerController.value.buffered.isNotEmpty){
+      videoBuffered = playerProvider.videoPlayerController.value.buffered[0];
+    }
+    if(!vdoCtrl.value.isPlaying && vdoCtrl == null && playControlIcon != playerProvider.playIcon || vdoCtrl.value.isBuffering){
+      bufferLoading = true;
+    }else{
+      bufferLoading = false;
+    }
+    notifyListeners();
+  }
+
+  switchAspectRatio(BuildContext context){
+    Size size = MediaQuery.of(context).size;
+    if(aspectRatioVal == playerProvider.videoPlayerController.value.aspectRatio){
+      aspectRatioVal = size.width/size.height;
+    }else{
+      aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
     }
     notifyListeners();
   }
