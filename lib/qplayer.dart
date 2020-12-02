@@ -1,5 +1,7 @@
 library qplayer;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/myPlayer.dart';
@@ -29,7 +31,7 @@ class QPlayer extends StatefulWidget {
   final IconData replayIcon;
   final PlayerStyle playerStyle;
   final Duration functionKeyVisibleTime;
-
+  final ValueChanged<VideoPlayerController> getVideoPlayer;
   const QPlayer({
     Key key,
     @required this.videoUrl,
@@ -44,6 +46,7 @@ class QPlayer extends StatefulWidget {
     this.replayIcon = Icons.replay,
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleTime = const Duration(seconds: 2),
+    this.getVideoPlayer,
   }) : super(key: key);
 
   @override
@@ -102,6 +105,13 @@ class _QPlayerState extends State<QPlayer> {
         functionKeyVisibleTime: widget.functionKeyVisibleTime,
         loadingColor: widget.loadingColor,
       );
+    });
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+      if(playerProvider.videoPlayerController != null){
+        setState(() {
+          widget.getVideoPlayer(playerProvider.videoPlayerController);
+        });
+      }
     });
   }
 
