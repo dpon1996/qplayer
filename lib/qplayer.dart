@@ -32,7 +32,6 @@ class QPlayer extends StatefulWidget {
   final PlayerStyle playerStyle;
   final Duration functionKeyVisibleTime;
   final Duration quickFastDuration;
-  final ValueChanged<VideoPlayerController> getVideoPlayerController;
   const QPlayer({
     Key key,
     @required this.videoUrl,
@@ -48,7 +47,6 @@ class QPlayer extends StatefulWidget {
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleTime = const Duration(seconds: 2),
     this.quickFastDuration = const Duration(seconds: 10),
-    this.getVideoPlayerController,
   }) : super(key: key);
 
   @override
@@ -96,14 +94,6 @@ class _QPlayerState extends State<QPlayer> {
         loadingColor: widget.loadingColor,
         quickFastDuration: widget.quickFastDuration,
       );
-    });
-    Timer.periodic(Duration(milliseconds: 100), (timer) {
-      if(playerProvider.videoPlayerController != null){
-        setState(() {
-          widget.getVideoPlayerController(playerProvider.videoPlayerController);
-        });
-        timer.cancel();
-      }
     });
   }
 
