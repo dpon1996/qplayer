@@ -17,17 +17,11 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
   Widget build(BuildContext context) {
     _playerProvider = Provider.of<PlayerProvider>(context);
     _playerFunctionsProvider = Provider.of<PlayerFunctionsProvider>(context);
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         _playerFunctionsProvider.setFunctionVisibility();
       },
-      onDoubleTapDown: (details) {
-        _playerFunctionsProvider.doubleTapVideoSeek(
-            context: context, localPosition: details.localPosition);
-      },
-      onDoubleTap: () {},
       child: Container(
-        color: Colors.transparent,
         alignment: Alignment.center,
         child: Visibility(
           visible: _playerFunctionsProvider.functionVisibility,
@@ -136,24 +130,6 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                                   _playerFunctionsProvider.getVideoDuration()),
                               style: TextStyle(color: Colors.white),
                             ),
-                            InkWell(
-                              onTap: () {
-                                _playerFunctionsProvider.muteAndUnMuteFunction(
-                                    getStatus: false);
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
-                                child: Icon(
-                                  _playerFunctionsProvider
-                                      .muteAndUnMuteFunction(
-                                      getStatus: true)
-                                      ? Icons.volume_up
-                                      : Icons.volume_off,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
-                              ),
-                            ),
                             Expanded(
                               child: Container(),
                             ),
@@ -170,18 +146,15 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                               ),
                               style: TextStyle(color: Colors.white),
                             ),
+                            SizedBox(width: 16),
                             InkWell(
                               onTap: () {
-                                _playerFunctionsProvider
-                                    .switchAspectRatio(context);
+                                _playerFunctionsProvider.switchAspectRatio(context);
                               },
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 16),
-                                child: Icon(
-                                  Icons.aspect_ratio,
-                                  color: Colors.white,
-                                  size: 20,
-                                ),
+                              child: Icon(
+                                Icons.aspect_ratio,
+                                color: Colors.white,
+                                size: 20,
                               ),
                             ),
                           ],
