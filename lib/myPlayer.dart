@@ -86,6 +86,6 @@ class _MyPlayerState extends State<MyPlayer> {
   //       playerProvider.videoPlayerController.pause();
   //     }
   //   }
-  }
+  // }
 
 }
