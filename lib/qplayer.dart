@@ -5,12 +5,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/myPlayer.dart';
-import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
-import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
-import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
 import 'package:qplayer/provider/playerFunctionsProvider.dart';
 import 'package:qplayer/provider/playerProvider.dart';
-import 'package:video_player/video_player.dart';
 
 enum PlayerStyle {
   basicStyle,
