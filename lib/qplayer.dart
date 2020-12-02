@@ -1,5 +1,7 @@
 library qplayer;
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/myPlayer.dart';
@@ -29,7 +31,8 @@ class QPlayer extends StatefulWidget {
   final IconData replayIcon;
   final PlayerStyle playerStyle;
   final Duration functionKeyVisibleTime;
-
+  final Duration quickFastDuration;
+  final ValueChanged<VideoPlayerController> getVideoPlayerController;
   const QPlayer({
     Key key,
     @required this.videoUrl,
@@ -44,6 +47,8 @@ class QPlayer extends StatefulWidget {
     this.replayIcon = Icons.replay,
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleTime = const Duration(seconds: 2),
+    this.quickFastDuration = const Duration(seconds: 10),
+    this.getVideoPlayerController,
   }) : super(key: key);
 
   @override
@@ -56,33 +61,21 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: playerProvider),
-        ChangeNotifierProvider.value(value: playerFunctionsProvider),
-      ],
+    playerProvider = Provider.of<PlayerProvider>(context); //remove
+    playerFunctionsProvider =
+        Provider.of<PlayerFunctionsProvider>(context); //remove
+    return Container(
+      alignment: Alignment.center,
+      color: Colors.black,
       child: MyPlayer(
         playerStyle: widget.playerStyle,
       ),
     );
   }
 
-  ///video player style selector ///
-  ///
-  // ignore: missing_return
-  Widget playerStyleSelector() {
-    switch (widget.playerStyle) {
-      case PlayerStyle.basicStyle:
-        return BasicPlayerStyle();
-      case PlayerStyle.mxStyle:
-        return MxPlayerStyle();
-      case PlayerStyle.ybStyle:
-        return YbPlayerStyle();
-    }
-  }
-
   @override
   void initState() {
+
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ///make player provider access to player function provider
@@ -101,7 +94,16 @@ class _QPlayerState extends State<QPlayer> {
         replayIcon: widget.replayIcon,
         functionKeyVisibleTime: widget.functionKeyVisibleTime,
         loadingColor: widget.loadingColor,
+        quickFastDuration: widget.quickFastDuration,
       );
+    });
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+      if(playerProvider.videoPlayerController != null){
+        setState(() {
+          widget.getVideoPlayerController(playerProvider.videoPlayerController);
+        });
+        timer.cancel();
+      }
     });
   }
 
@@ -111,3 +113,4 @@ class _QPlayerState extends State<QPlayer> {
     playerProvider.videoPlayerController.dispose();
   }
 }
+
