@@ -27,6 +27,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
       },
       onDoubleTap: () {},
       child: Container(
+        color: Colors.transparent,
         alignment: Alignment.center,
         child: Visibility(
           visible: _playerFunctionsProvider.functionVisibility,
