@@ -173,18 +173,26 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
     if (touchedPosition > (phoneWidth / 2)) {
       ///check if video position greater than duration
-      if(getVideoDuration() > currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds){
-        seekVideoPosition(currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds);
-      }else{
-        seekVideoPosition(getVideoDuration());
-      }
+      videoFastSeekRight();
     } else {
       ///check if video position less than than duration
-      if(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds >= 0){
-        seekVideoPosition(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds);
-      }else{
-        seekVideoPosition(0);
-      }
+      videoFastSeekLeft();
+    }
+  }
+
+  videoFastSeekRight(){
+    if(getVideoDuration() > currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds){
+      seekVideoPosition(currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds);
+    }else{
+      seekVideoPosition(getVideoDuration());
+    }
+  }
+
+  videoFastSeekLeft(){
+    if(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds >= 0){
+      seekVideoPosition(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds);
+    }else{
+      seekVideoPosition(0);
     }
   }
 
