@@ -188,6 +188,19 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                     ],
                   ),
                 ),
+                if(_playerProvider.videoTitle != null)Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    child: AppBar(
+                      backgroundColor: Colors.black26,
+                      titleSpacing: 0,
+                      elevation: 0,
+                      title: Text('${_playerProvider.videoTitle}'),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
