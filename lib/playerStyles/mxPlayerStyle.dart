@@ -186,7 +186,9 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                         ),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          playerFunPro.switchAspectRatio(context);
+                        },
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: size.width * .05),
