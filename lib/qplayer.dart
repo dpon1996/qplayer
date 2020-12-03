@@ -106,15 +106,18 @@ class _QPlayerState extends State<QPlayer> {
         loadingColor: widget.loadingColor,
       );
     });
-    Timer.periodic(Duration(milliseconds: 100), (timer) {
-      if(playerProvider.videoPlayerController != null){
-        if(!mounted)return;
-        setState(() {
-          widget.getVideoPlayerController(playerProvider.videoPlayerController);
-        });
-        timer.cancel();
-      }
-    });
+
+    if(widget.getVideoPlayerController != null){
+      Timer.periodic(Duration(seconds: 1), (timer) {
+        if(playerProvider.videoPlayerController != null){
+          if(!mounted)return;
+          setState(() {
+            widget.getVideoPlayerController(playerProvider.videoPlayerController);
+          });
+          timer.cancel();
+        }
+      });
+    }
   }
 
   @override
