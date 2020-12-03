@@ -19,7 +19,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
     Size size = MediaQuery.of(context).size;
     return Stack(
       children: [
-        Positioned(
+        if(playerPro.videoTitle != null)Positioned(
           top: 0,
           left: 0,
           right: 0,
