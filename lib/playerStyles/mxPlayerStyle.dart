@@ -34,12 +34,15 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
               },
               onVerticalDragUpdate: (val) {},
               onHorizontalDragUpdate: (val) {
-                print(val.delta);
-                playerFunPro.videoFastSeekDrag(val.delta.dx);
+                if(!lockMode){
+                  playerFunPro.videoFastSeekDrag(val.delta.dx);
+                }
               },
               onDoubleTapDown: (val) {
-                playerFunPro.doubleTapVideoSeek(
-                    context: context, localPosition: val.localPosition);
+                if(!lockMode){
+                  playerFunPro.doubleTapVideoSeek(
+                      context: context, localPosition: val.localPosition);
+                }
               },
               onDoubleTap: () {},
               child: Container(
