@@ -17,7 +17,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   double aspectRatioVal = 16 / 9;
 
-  DurationRange videoBuffered = DurationRange(Duration() , Duration());
+  DurationRange videoBuffered = DurationRange(Duration(), Duration());
 
   setPlayerProvider(provider) {
     playerProvider = provider;
@@ -38,15 +38,15 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     });
   }
 
-  void initializeVideo()async{
-    videoBuffered = DurationRange(Duration() , Duration());
-    playerProvider.videoPlayerController = VideoPlayerController.network(playerProvider.videoUrl);
+  void initializeVideo() async {
+    videoBuffered = DurationRange(Duration(), Duration());
+    playerProvider.videoPlayerController =
+        VideoPlayerController.network(playerProvider.videoUrl);
     playerProvider.videoPlayerController.addListener(() {
       isVideoEndCheck();
       notifyListeners();
       checkBufferLoading();
       isVideoPlaying();
-
     });
     await playerProvider.videoPlayerController.initialize();
     aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
@@ -55,38 +55,45 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   }
 
   isVideoEndCheck() {
-    if(playerProvider.videoPlayerController.value.position == playerProvider.videoPlayerController.value.duration){
+    if (playerProvider.videoPlayerController.value.position ==
+        playerProvider.videoPlayerController.value.duration) {
       isVideoEnd = true;
       playControlIcon = playerProvider.replayIcon;
-    }else{
+    } else {
       isVideoEnd = false;
     }
     notifyListeners();
   }
 
-  double getVideoDuration(){
+  double getVideoDuration() {
     int videoDuration = 1;
     if (playerProvider.videoPlayerController.value.initialized &&
         playerProvider.videoPlayerController.value != null) {
-      videoDuration = playerProvider.videoPlayerController.value.duration.inMilliseconds;
+      videoDuration =
+          playerProvider.videoPlayerController.value.duration.inMilliseconds;
     }
     return videoDuration.toDouble();
   }
 
-  double currentVideoPosition(){
+  double currentVideoPosition() {
     int videoPosition = 0;
     if (playerProvider.videoPlayerController.value.initialized &&
         playerProvider.videoPlayerController.value != null) {
-      videoPosition = playerProvider.videoPlayerController.value.position.inMilliseconds;
+      videoPosition =
+          playerProvider.videoPlayerController.value.position.inMilliseconds;
     }
     return videoPosition.toDouble();
   }
 
-  seekVideoPosition(double val){
+  seekVideoPosition(double val) {
     functionVisibility = true;
     notifyListeners();
-    playerProvider.videoPlayerController.seekTo(Duration(milliseconds: val.toInt()));
-    print(Duration(milliseconds: val.toInt()));
+    playerProvider.videoPlayerController.seekTo(
+      Duration(
+        milliseconds: val.toInt(),
+      ),
+    );
+    playerProvider.videoPlayerController.play();
   }
 
   void setFunctionVisibility() {
@@ -100,11 +107,10 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   }
 
   void playControl() {
-    if(isVideoEnd){
+    if (isVideoEnd) {
       initializeVideo();
       playControlIcon = playerProvider.pauseIcon;
-    }
-    else if (playerProvider.videoPlayerController.value.isPlaying) {
+    } else if (playerProvider.videoPlayerController.value.isPlaying) {
       playerProvider.videoPlayerController.pause();
       playControlIcon = playerProvider.playIcon;
     } else {
@@ -116,22 +122,26 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   checkBufferLoading() {
     VideoPlayerController vdoCtrl = playerProvider.videoPlayerController;
-    if(playerProvider.videoPlayerController.value.buffered.isNotEmpty){
+    if (playerProvider.videoPlayerController.value.buffered.isNotEmpty) {
       videoBuffered = playerProvider.videoPlayerController.value.buffered[0];
     }
-    if(!vdoCtrl.value.isPlaying && vdoCtrl == null && playControlIcon != playerProvider.playIcon || vdoCtrl.value.isBuffering){
+    if (!vdoCtrl.value.isPlaying &&
+            vdoCtrl == null &&
+            playControlIcon != playerProvider.playIcon ||
+        vdoCtrl.value.isBuffering) {
       bufferLoading = true;
-    }else{
+    } else {
       bufferLoading = false;
     }
     notifyListeners();
   }
 
-  switchAspectRatio(BuildContext context){
+  switchAspectRatio(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    if(aspectRatioVal == playerProvider.videoPlayerController.value.aspectRatio){
-      aspectRatioVal = size.width/size.height;
-    }else{
+    if (aspectRatioVal ==
+        playerProvider.videoPlayerController.value.aspectRatio) {
+      aspectRatioVal = size.width / size.height;
+    } else {
       aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
     }
     notifyListeners();
@@ -147,7 +157,6 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 
   muteAndUnMuteFunction({@required bool getStatus}) {
     double volume = playerProvider.videoPlayerController.value.volume;
@@ -180,20 +189,38 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     }
   }
 
-  videoFastSeekRight(){
-    if(getVideoDuration() > currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds){
-      seekVideoPosition(currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds);
-    }else{
+  videoFastSeekRight() {
+    if (getVideoDuration() >
+        currentVideoPosition() +
+            playerProvider.quickFastDuration.inMilliseconds) {
+      seekVideoPosition(currentVideoPosition() +
+          playerProvider.quickFastDuration.inMilliseconds);
+    } else {
       seekVideoPosition(getVideoDuration());
     }
   }
 
-  videoFastSeekLeft(){
-    if(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds >= 0){
-      seekVideoPosition(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds);
-    }else{
+  videoFastSeekLeft() {
+    if (currentVideoPosition() -
+            playerProvider.quickFastDuration.inMilliseconds >=
+        0) {
+      seekVideoPosition(currentVideoPosition() -
+          playerProvider.quickFastDuration.inMilliseconds);
+    } else {
       seekVideoPosition(0);
     }
   }
+
+  videoFastSeekDrag(double val) {
+    if (getVideoDuration() >
+        currentVideoPosition() +
+            Duration(milliseconds: val.toInt()).inMilliseconds * 100) {
+      seekVideoPosition(currentVideoPosition() +
+          Duration(milliseconds: val.toInt()).inMilliseconds * 100);
+    } else {
+      seekVideoPosition(getVideoDuration());
+    }
+  }
+
 
 }

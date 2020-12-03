@@ -32,6 +32,15 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
               onTap: () {
                 playerFunPro.setFunctionVisibility();
               },
+              onHorizontalDragUpdate: (val){
+                print(val.delta);
+                playerFunPro.videoFastSeekDrag(val.delta.dx);
+              },
+
+              onDoubleTapDown: (val){
+                playerFunPro.doubleTapVideoSeek(context: context, localPosition: val.localPosition);
+              },
+              onDoubleTap: (){},
               child: Container(
                 color: Colors.transparent,
               ),
