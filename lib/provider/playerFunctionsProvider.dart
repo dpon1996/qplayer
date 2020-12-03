@@ -134,4 +134,22 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  muteAndUnMuteFunction({@required bool getStatus}) {
+    double volume = playerProvider.videoPlayerController.value.volume;
+    if (getStatus) {
+      if (volume == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      if (volume == 1) {
+        playerProvider.videoPlayerController.setVolume(0);
+      } else {
+        playerProvider.videoPlayerController.setVolume(1);
+      }
+    }
+  }
+
 }

@@ -94,7 +94,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                                   .videoBuffered.start.inMilliseconds
                                   .toDouble(),
                               activeColor:
-                              _playerProvider.progressColor.withOpacity(.4),
+                                  _playerProvider.progressColor.withOpacity(.4),
                             ),
                           ),
                           Slider(
@@ -102,12 +102,12 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                               _playerFunctionsProvider.seekVideoPosition(value);
                             },
                             value:
-                            _playerFunctionsProvider.currentVideoPosition(),
+                                _playerFunctionsProvider.currentVideoPosition(),
                             min: 0,
                             max: _playerFunctionsProvider.getVideoDuration(),
                             activeColor: _playerProvider.progressColor,
                             inactiveColor:
-                            _playerProvider.progressColor.withOpacity(.2),
+                                _playerProvider.progressColor.withOpacity(.2),
                           ),
                         ],
                       ),
@@ -130,6 +130,24 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                                   _playerFunctionsProvider.getVideoDuration()),
                               style: TextStyle(color: Colors.white),
                             ),
+                            InkWell(
+                              onTap: () {
+                                _playerFunctionsProvider.muteAndUnMuteFunction(
+                                    getStatus: false);
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Icon(
+                                  _playerFunctionsProvider
+                                          .muteAndUnMuteFunction(
+                                              getStatus: true)
+                                      ? Icons.volume_up
+                                      : Icons.volume_off,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: Container(),
                             ),
@@ -140,7 +158,7 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                             Text(
                               ConvertOperations().remainingTime(
                                 endTime:
-                                _playerFunctionsProvider.getVideoDuration(),
+                                    _playerFunctionsProvider.getVideoDuration(),
                                 startTime: _playerFunctionsProvider
                                     .currentVideoPosition(),
                               ),
@@ -149,7 +167,8 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
                             SizedBox(width: 16),
                             InkWell(
                               onTap: () {
-                                _playerFunctionsProvider.switchAspectRatio(context);
+                                _playerFunctionsProvider
+                                    .switchAspectRatio(context);
                               },
                               child: Icon(
                                 Icons.aspect_ratio,
