@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
@@ -21,7 +19,6 @@ class MyPlayer extends StatefulWidget {
 class _MyPlayerState extends State<MyPlayer> {
   PlayerProvider playerProvider;
   PlayerFunctionsProvider playerFunctionsProvider;
-  //AppLifecycleState _appLifecycleState;
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +48,6 @@ class _MyPlayerState extends State<MyPlayer> {
     );
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Timer.periodic(Duration(milliseconds: 200), (timer) {
-  //     _backgroundPlayControl();
-  //   });
-  //   WidgetsBinding.instance.addObserver(this);
-  // }
-
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   _appLifecycleState = state;
-  // }
-
   ///video player style selector ///
   ///
   // ignore: missing_return
@@ -78,14 +61,5 @@ class _MyPlayerState extends State<MyPlayer> {
         return YbPlayerStyle();
     }
   }
-
-  // _backgroundPlayControl() {
-  //   if (_appLifecycleState == AppLifecycleState.inactive ||
-  //       _appLifecycleState == AppLifecycleState.paused) {
-  //     if (playerProvider.videoPlayerController.value.isPlaying) {
-  //       playerProvider.videoPlayerController.pause();
-  //     }
-  //   }
-  // }
 
 }
