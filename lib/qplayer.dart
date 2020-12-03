@@ -31,6 +31,7 @@ class QPlayer extends StatefulWidget {
   final IconData replayIcon;
   final PlayerStyle playerStyle;
   final Duration functionKeyVisibleTime;
+  final Duration quickFastDuration;
   final ValueChanged<VideoPlayerController> getVideoPlayerController;
   const QPlayer({
     Key key,
@@ -46,6 +47,7 @@ class QPlayer extends StatefulWidget {
     this.replayIcon = Icons.replay,
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleTime = const Duration(seconds: 2),
+    this.quickFastDuration = const Duration(seconds: 2),
     this.getVideoPlayerController,
   }) : super(key: key);
 
@@ -104,6 +106,7 @@ class _QPlayerState extends State<QPlayer> {
         replayIcon: widget.replayIcon,
         functionKeyVisibleTime: widget.functionKeyVisibleTime,
         loadingColor: widget.loadingColor,
+        quickFastDuration: widget.quickFastDuration,
       );
     });
 

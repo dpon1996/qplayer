@@ -17,10 +17,15 @@ class _BasicPlayerStyleState extends State<BasicPlayerStyle> {
   Widget build(BuildContext context) {
     _playerProvider = Provider.of<PlayerProvider>(context);
     _playerFunctionsProvider = Provider.of<PlayerFunctionsProvider>(context);
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         _playerFunctionsProvider.setFunctionVisibility();
       },
+      onDoubleTapDown: (details) {
+        _playerFunctionsProvider.doubleTapVideoSeek(
+            context: context, localPosition: details.localPosition);
+      },
+      onDoubleTap: () {},
       child: Container(
         alignment: Alignment.center,
         child: Visibility(

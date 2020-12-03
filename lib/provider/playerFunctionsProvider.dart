@@ -74,7 +74,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
   }
 
   double currentVideoPosition(){
-    int videoPosition = 1;
+    int videoPosition = 0;
     if (playerProvider.videoPlayerController.value.initialized &&
         playerProvider.videoPlayerController.value != null) {
       videoPosition = playerProvider.videoPlayerController.value.position.inMilliseconds;
@@ -162,6 +162,28 @@ class PlayerFunctionsProvider extends ChangeNotifier {
         playerProvider.videoPlayerController.setVolume(0);
       } else {
         playerProvider.videoPlayerController.setVolume(1);
+      }
+    }
+  }
+
+  doubleTapVideoSeek(
+      {@required BuildContext context, @required Offset localPosition}) {
+    double phoneWidth = MediaQuery.of(context).size.width;
+    double touchedPosition = localPosition.dx;
+
+    if (touchedPosition > (phoneWidth / 2)) {
+      ///check if video position greater than duration
+      if(getVideoDuration() > currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds){
+        seekVideoPosition(currentVideoPosition() + playerProvider.quickFastDuration.inMilliseconds);
+      }else{
+        seekVideoPosition(getVideoDuration());
+      }
+    } else {
+      ///check if video position less than than duration
+      if(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds >= 0){
+        seekVideoPosition(currentVideoPosition() - playerProvider.quickFastDuration.inMilliseconds);
+      }else{
+        seekVideoPosition(0);
       }
     }
   }
