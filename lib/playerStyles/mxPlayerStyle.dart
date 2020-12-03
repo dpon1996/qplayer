@@ -174,7 +174,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                 horizontal: size.width * .05),
                             child: Icon(
                               Icons.lock,
-                              color: Colors.white,
+                              color: playerPro.iconsColor,
                               size: 30,
                             ),
                           ),
@@ -188,7 +188,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                 horizontal: size.width * .05),
                             child: Icon(
                               Icons.fast_rewind,
-                              color: Colors.white,
+                              color: playerPro.iconsColor,
                               size: 35,
                             ),
                           ),
@@ -202,7 +202,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                 horizontal: size.width * .05),
                             child: Icon(
                               playerFunPro.playControlIcon,
-                              color: Colors.white,
+                              color: playerPro.iconsColor,
                               size: 45,
                             ),
                           ),
@@ -216,7 +216,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                 horizontal: size.width * .05),
                             child: Icon(
                               Icons.fast_forward,
-                              color: Colors.white,
+                              color: playerPro.iconsColor,
                               size: 35,
                             ),
                           ),
@@ -230,7 +230,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                 horizontal: size.width * .05),
                             child: Icon(
                               Icons.fullscreen,
-                              color: Colors.white,
+                              color: playerPro.iconsColor,
                               size: 30,
                             ),
                           ),
