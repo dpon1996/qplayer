@@ -31,7 +31,7 @@ class QPlayer extends StatefulWidget {
   final IconData replayIcon;
   final PlayerStyle playerStyle;
   final Duration functionKeyVisibleTime;
-  final ValueChanged<VideoPlayerController> getVideoPlayer;
+  final ValueChanged<VideoPlayerController> getVideoPlayerController;
   const QPlayer({
     Key key,
     @required this.videoUrl,
@@ -46,7 +46,7 @@ class QPlayer extends StatefulWidget {
     this.replayIcon = Icons.replay,
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleTime = const Duration(seconds: 2),
-    this.getVideoPlayer,
+    this.getVideoPlayerController,
   }) : super(key: key);
 
   @override
@@ -108,9 +108,11 @@ class _QPlayerState extends State<QPlayer> {
     });
     Timer.periodic(Duration(milliseconds: 100), (timer) {
       if(playerProvider.videoPlayerController != null){
+        if(!mounted)return;
         setState(() {
-          widget.getVideoPlayer(playerProvider.videoPlayerController);
+          widget.getVideoPlayerController(playerProvider.videoPlayerController);
         });
+        timer.cancel();
       }
     });
   }
