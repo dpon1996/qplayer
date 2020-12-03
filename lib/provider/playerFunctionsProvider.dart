@@ -45,6 +45,8 @@ class PlayerFunctionsProvider extends ChangeNotifier {
       isVideoEndCheck();
       notifyListeners();
       checkBufferLoading();
+      isVideoPlaying();
+
     });
     await playerProvider.videoPlayerController.initialize();
     aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
@@ -134,6 +136,18 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  isVideoPlaying() {
+    if (isVideoEnd) {
+      playControlIcon = playerProvider.replayIcon;
+    } else if (playerProvider.videoPlayerController.value.isPlaying) {
+      playControlIcon = playerProvider.pauseIcon;
+    } else {
+      playControlIcon = playerProvider.playIcon;
+    }
+    notifyListeners();
+  }
+
 
   muteAndUnMuteFunction({@required bool getStatus}) {
     double volume = playerProvider.videoPlayerController.value.volume;
