@@ -9,4 +9,10 @@ class ConvertOperations {
     int diff = endMil - startMil;
     return Duration(milliseconds: diff.toInt()).toString().split(".").first;
   }
+
+  String convertToVideoSpeed(double val){
+    String speed = val.toString();
+    return "${speed[0]}X";
+  }
+
 }

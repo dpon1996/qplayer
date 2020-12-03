@@ -222,5 +222,21 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     }
   }
 
+  videoSpeedControl({@required bool getSpeed}){
+    double speed = playerProvider.videoPlayerController.value.playbackSpeed;
+    double speedCtrl = 1;
+    if(getSpeed){
+      return speed;
+    }else{
+      if(speed >= 3){
+        speedCtrl = 1;
+      }else{
+        speedCtrl = speed + 1;
+      }
+      print(speedCtrl);
+      playerProvider.videoPlayerController.setPlaybackSpeed(speedCtrl);
+    }
+  }
+
 
 }

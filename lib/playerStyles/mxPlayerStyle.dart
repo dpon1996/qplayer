@@ -32,41 +32,97 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
               onTap: () {
                 playerFunPro.setFunctionVisibility();
               },
-              onHorizontalDragUpdate: (val){
+              onVerticalDragUpdate: (val) {},
+              onHorizontalDragUpdate: (val) {
                 print(val.delta);
                 playerFunPro.videoFastSeekDrag(val.delta.dx);
               },
-
-              onDoubleTapDown: (val){
-                playerFunPro.doubleTapVideoSeek(context: context, localPosition: val.localPosition);
+              onDoubleTapDown: (val) {
+                playerFunPro.doubleTapVideoSeek(
+                    context: context, localPosition: val.localPosition);
               },
-              onDoubleTap: (){},
+              onDoubleTap: () {},
               child: Container(
                 color: Colors.transparent,
               ),
             ),
           ),
-          if(lockMode && playerFunPro.functionVisibility)Positioned(
-            top: 40,
-            left: 20,
-            child: InkWell(
-              onTap: (){
-                setState(() {
-                  lockMode = false;
-                });
-              },
-              child: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white38,
-                  borderRadius: BorderRadius.circular(8),
+          if (lockMode && playerFunPro.functionVisibility)
+            Positioned(
+              top: 40,
+              left: 20,
+              child: InkWell(
+                onTap: () {
+                  setState(() {
+                    lockMode = false;
+                  });
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white38,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Icon(
+                    Icons.lock_open,
+                    color: Colors.white,
+                    size: 30,
+                  ),
                 ),
-                child: Icon(Icons.lock_open,color: Colors.white,size: 30,),
               ),
             ),
-          ),
-          if (playerPro.videoTitle != null && playerFunPro.functionVisibility && !lockMode)
+          if (playerFunPro.functionVisibility && !lockMode)
+            Positioned(
+              top: playerPro.videoTitle == null ? 40 : 90,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 50,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    CircleAvatar(
+                      backgroundColor:
+                      playerFunPro.muteAndUnMuteFunction(getStatus: true)
+                          ? Colors.white24
+                          : null,
+                      child: IconButton(
+                        onPressed: () {
+                          playerFunPro.muteAndUnMuteFunction(getStatus: false);
+                        },
+                        icon: Icon(
+                          playerFunPro.muteAndUnMuteFunction(getStatus: true)
+                              ? Icons.volume_up
+                              : Icons.volume_off,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    InkWell(
+                      onTap: () {
+                        playerFunPro.videoSpeedControl(getSpeed: false);
+                      },
+                      child: CircleAvatar(
+                        backgroundColor:
+                        playerFunPro.videoSpeedControl(getSpeed: true) == 1
+                            ? Colors.white24
+                            : null,
+                        child: Text(
+                          ConvertOperations().convertToVideoSpeed(
+                              playerFunPro.videoSpeedControl(getSpeed: true)),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          if (playerPro.videoTitle != null &&
+              playerFunPro.functionVisibility &&
+              !lockMode)
             Positioned(
               top: 0,
               left: 0,
