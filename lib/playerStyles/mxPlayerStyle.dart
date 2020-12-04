@@ -21,7 +21,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _backPressCtrl,
-      child: Stack(
+      child: !playerPro.videoPlayerController.value.initialized?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(playerPro.loadingColor),):Stack(
         children: [
           Positioned(
             top: 0,
@@ -179,9 +179,10 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
                                         .videoBuffered.end.inMilliseconds
                                         .toDouble(),
                                     max: playerFunPro.getVideoDuration(),
-                                    min: playerFunPro
-                                        .videoBuffered.start.inMilliseconds
-                                        .toDouble(),
+                                    // min: playerFunPro
+                                    //     .videoBuffered.start.inMilliseconds
+                                    //     .toDouble(),
+                                    min: 0,
                                     activeColor:
                                     playerPro.progressColor.withOpacity(.4),
                                   ),
