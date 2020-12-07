@@ -50,6 +50,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
     });
     await playerProvider.videoPlayerController.initialize();
     aspectRatioVal = playerProvider.videoPlayerController.value.aspectRatio;
+    await playerProvider.videoPlayerController.seekTo(playerProvider.startingPosition);
     await playerProvider.videoPlayerController.play();
     notifyListeners();
   }

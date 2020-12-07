@@ -16,6 +16,7 @@ class PlayerProvider extends ChangeNotifier {
   IconData replayIcon;
   Duration functionKeyVisibleTime;
   Duration quickFastDuration;
+  Duration startingPosition;
 
   setInitialData({
     String videoUrl,
@@ -30,8 +31,7 @@ class PlayerProvider extends ChangeNotifier {
     IconData replayIcon,
     Duration functionKeyVisibleTime,
     Duration quickFastDuration,
-
-
+    Duration startingPosition,
   }) {
     this.videoUrl = videoUrl;
     this.videoTitle = videoTitle;
@@ -45,6 +45,7 @@ class PlayerProvider extends ChangeNotifier {
     this.replayIcon = replayIcon;
     this.functionKeyVisibleTime = functionKeyVisibleTime;
     this.quickFastDuration = quickFastDuration;
+    this.startingPosition = startingPosition;
     notifyListeners();
   }
 }
