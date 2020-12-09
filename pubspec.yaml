@@ -1,7 +1,7 @@
 name: qplayer
-description: A new Flutter package.
+description: Make an easy video player with multi in build player styles
 version: 0.0.1
-author: Arrano <dpon1996@gmail.com>
+#authors: [dpon1996@gmail.com]
 homepage: https://github.com/dpon1996/qplayer.git
 
 environment:

@@ -9,7 +9,7 @@ class _YbPlayerStyleState extends State<YbPlayerStyle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      color: Colors.transparent,
     );
   }
 }
