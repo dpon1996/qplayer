@@ -1,4 +1,4 @@
-# qplayer
+# qplayer - video player
 
 A new Flutter package.
 
