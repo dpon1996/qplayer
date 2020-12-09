@@ -15,7 +15,7 @@ import 'package:video_player/video_player.dart';
 enum PlayerStyle {
   basicStyle,
   mxStyle,
-  ybStyle,
+  none,
 }
 
 class QPlayer extends StatefulWidget {
@@ -75,19 +75,6 @@ class _QPlayerState extends State<QPlayer> {
     );
   }
 
-  ///video player style selector ///
-  ///
-  // ignore: missing_return
-  Widget playerStyleSelector() {
-    switch (widget.playerStyle) {
-      case PlayerStyle.basicStyle:
-        return BasicPlayerStyle();
-      case PlayerStyle.mxStyle:
-        return MxPlayerStyle();
-      case PlayerStyle.ybStyle:
-        return YbPlayerStyle();
-    }
-  }
 
   @override
   void initState() {

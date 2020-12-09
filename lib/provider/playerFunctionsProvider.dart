@@ -234,7 +234,6 @@ class PlayerFunctionsProvider extends ChangeNotifier {
       }else{
         speedCtrl = speed + 1;
       }
-      print(speedCtrl);
       playerProvider.videoPlayerController.setPlaybackSpeed(speedCtrl);
     }
   }

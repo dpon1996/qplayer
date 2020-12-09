@@ -83,7 +83,7 @@ class _MyPlayerState extends State<MyPlayer> with WidgetsBindingObserver{
         return BasicPlayerStyle();
       case PlayerStyle.mxStyle:
         return MxPlayerStyle();
-      case PlayerStyle.ybStyle:
+      case PlayerStyle.none:
         return YbPlayerStyle();
     }
   }
