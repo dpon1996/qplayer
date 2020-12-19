@@ -5,12 +5,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/myPlayer.dart';
-import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
-import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
-import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
 import 'package:qplayer/provider/playerFunctionsProvider.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock/wakelock.dart';
 
 enum PlayerStyle {
   basicStyle,
@@ -79,6 +77,7 @@ class _QPlayerState extends State<QPlayer> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ///make player provider access to player function provider
       playerFunctionsProvider.setPlayerProvider(playerProvider);
@@ -119,5 +118,6 @@ class _QPlayerState extends State<QPlayer> {
   void dispose() {
     super.dispose();
     playerProvider.videoPlayerController.dispose();
+    Wakelock.disable();
   }
 }
