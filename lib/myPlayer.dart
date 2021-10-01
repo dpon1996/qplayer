@@ -1,52 +1,58 @@
-import 'dart:async';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qplayer/playerStyles/basicPlayerStyle.dart';
-import 'package:qplayer/playerStyles/mxPlayerStyle.dart';
-import 'package:qplayer/playerStyles/ybPlayerStyle.dart';
-import 'package:qplayer/provider/playerFunctionsProvider.dart';
+import 'package:qplayer/playerUi/basicPlayer.dart';
+import 'package:qplayer/playerUi/mxPlayer.dart';
 import 'package:qplayer/provider/playerProvider.dart';
-import 'package:qplayer/qplayer.dart';
 import 'package:video_player/video_player.dart';
 
-class MyPlayer extends StatefulWidget {
-  final PlayerStyle playerStyle;
+import 'model/playerControls.dart';
 
-  const MyPlayer({Key key, this.playerStyle}) : super(key: key);
+class MyPlayer extends StatefulWidget {
   @override
   _MyPlayerState createState() => _MyPlayerState();
 }
 
-class _MyPlayerState extends State<MyPlayer> with WidgetsBindingObserver{
-  PlayerProvider playerProvider;
-  PlayerFunctionsProvider playerFunctionsProvider;
-  AppLifecycleState _appLifecycleState;
+class _MyPlayerState extends State<MyPlayer> {
+  PlayerProvider _playerProvider = PlayerProvider();
 
   @override
   Widget build(BuildContext context) {
-    playerProvider = Provider.of<PlayerProvider>(context);
-    playerFunctionsProvider = Provider.of<PlayerFunctionsProvider>(context);
+    _playerProvider = Provider.of(context);
 
-    return Container(
-      alignment: Alignment.center,
-      color: Colors.black,
-      child: Stack(
-        children: [
-          if (playerProvider.videoPlayerController != null &&
-              playerProvider.videoPlayerController.value.initialized)
-            Center(
-              child: AspectRatio(
-                aspectRatio: playerFunctionsProvider.aspectRatioVal,
-                child: VideoPlayer(playerProvider.videoPlayerController),
-              ),
-            ),
-          if (playerProvider.videoPlayerController != null)
-            playerStyleSelector(),
-          if (playerProvider.videoPlayerController == null &&
-              playerProvider.videoThumbnail != null)
-            Center(child: Image.network(playerProvider.videoThumbnail)),
-        ],
+    return Center(
+      child: AspectRatio(
+        aspectRatio: _playerProvider.playerControls!.aspectRatio,
+        child: Container(
+          color: Colors.black,
+          child: Stack(
+            children: [
+              ///core player
+              if (_playerProvider.videoPlayerController != null &&
+                  _playerProvider.videoPlayerController!.value.isInitialized)
+                GestureDetector(
+                  onTap: (){
+                    _playerProvider.setFunctionVisible();
+                  },
+                  child: VideoPlayer(_playerProvider.videoPlayerController!),
+                ),
+
+              ///player ui
+              if (_playerProvider.videoPlayerController != null &&
+                  _playerProvider.videoPlayerController!.value.isInitialized)
+                getPlayer(),
+
+              if (_playerProvider.videoPlayerController == null ||
+                  !_playerProvider.videoPlayerController!.value.isInitialized)
+
+                Center(
+                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(_playerProvider.playerControls!.color),),
+                )
+
+              //Container(color: Colors.black),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -54,38 +60,20 @@ class _MyPlayerState extends State<MyPlayer> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(milliseconds: 200), (timer) {
-      _backgroundPlayControl();
-    });
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {});
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    _appLifecycleState = state;
-  }
-
-  _backgroundPlayControl() {
-    if (_appLifecycleState == AppLifecycleState.inactive ||
-        _appLifecycleState == AppLifecycleState.paused) {
-      if (playerProvider.videoPlayerController.value.isPlaying) {
-        playerProvider.videoPlayerController.pause();
-      }
-    }
-  }
-
-  ///video player style selector ///
-  ///
-  // ignore: missing_return
-  Widget playerStyleSelector() {
-    switch (widget.playerStyle) {
+  Widget getPlayer() {
+    PlayerStyle playerStyle = _playerProvider.playerControls!.playerStyle;
+    switch (playerStyle) {
       case PlayerStyle.basicStyle:
-        return BasicPlayerStyle();
+        return BasicPlayer();
+
       case PlayerStyle.mxStyle:
-        return MxPlayerStyle();
+        return MXPlayer();
+
       case PlayerStyle.none:
-        return YbPlayerStyle();
+        return Container();
     }
   }
-
 }

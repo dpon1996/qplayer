@@ -1,51 +1,154 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qplayer/model/playerControls.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerProvider extends ChangeNotifier {
-  VideoPlayerController videoPlayerController;
+  ///initialize video player settings
+  PlayerControls? playerControls;
 
-  String videoUrl;
-  String videoTitle;
-  String videoThumbnail;
-  Color iconsColor;
-  Color progressColor;
-  Color loadingColor;
-  IconData playIcon;
-  IconData pauseIcon;
-  IconData fullScreeIcon;
-  IconData replayIcon;
-  Duration functionKeyVisibleTime;
-  Duration quickFastDuration;
-  Duration startingPosition;
-
-  setInitialData({
-    String videoUrl,
-    String videoTitle,
-    String videoThumbnail,
-    Color iconsColor,
-    Color progressColor,
-    Color loadingColor,
-    IconData playIcon,
-    IconData pauseIcon,
-    IconData fullScreeIcon,
-    IconData replayIcon,
-    Duration functionKeyVisibleTime,
-    Duration quickFastDuration,
-    Duration startingPosition,
-  }) {
-    this.videoUrl = videoUrl;
-    this.videoTitle = videoTitle;
-    this.videoThumbnail = videoThumbnail;
-    this.iconsColor = iconsColor;
-    this.progressColor = progressColor;
-    this.loadingColor = loadingColor;
-    this.playIcon = playIcon;
-    this.pauseIcon = pauseIcon;
-    this.fullScreeIcon = fullScreeIcon;
-    this.replayIcon = replayIcon;
-    this.functionKeyVisibleTime = functionKeyVisibleTime;
-    this.quickFastDuration = quickFastDuration;
-    this.startingPosition = startingPosition;
+  setPlayerControls(PlayerControls playerCtrl) {
+    playerControls = playerCtrl;
+    videoInitialize();
     notifyListeners();
+  }
+
+  ///play control icons
+  IconData? playCtrlIcon;
+  IconData? muteCtrlIcon;
+
+  ///video functions
+  VideoPlayerController? videoPlayerController;
+
+  bool functionVisibility = false;
+  Timer? functionVisibleTimer;
+
+  bool isVideoEnd = false;
+  bool isPlaying = false;
+  Duration currentPlayingPosition = Duration();
+  Duration totalVideoTime = Duration();
+
+  videoInitialize() async {
+    ///set icons
+    playCtrlIcon = playerControls!.playIcon;
+    muteCtrlIcon = playerControls!.muteIcon;
+
+    ///video player config
+    videoPlayerController =
+        VideoPlayerController.network(playerControls!.videoUrl);
+    await videoPlayerController!.initialize();
+    videoPlayerController!.play();
+    videoPlayerController!.setLooping(playerControls!.looping);
+
+    ///function visible
+    setFunctionVisible();
+
+    ///video init settings
+    videoInitSettings();
+
+    videoPlayerController!.addListener(() {
+      isVideoEndCheck();
+      isVideoPlaying();
+      getVideoPositionalValues();
+    });
+    notifyListeners();
+  }
+
+  videoInitSettings() {
+    videoPlayerController!.setVolume(playerControls!.mute ? 0 : 1);
+    if (!isVideoEnd) {
+      seekVideoPosition(playerControls!.startingPosition!.inMicroseconds);
+    }
+  }
+
+  ///check the video is end
+  isVideoEndCheck() {
+    if (videoPlayerController!.value.position ==
+        videoPlayerController!.value.duration) {
+      isVideoEnd = true;
+      setFunctionVisible(always: true);
+    } else {
+      isVideoEnd = false;
+    }
+    notifyListeners();
+  }
+
+  ///check the playing status
+  isVideoPlaying() {
+    isPlaying = videoPlayerController!.value.isPlaying;
+
+    if (isVideoEnd) {
+      playCtrlIcon = playerControls!.replayIcon;
+    } else if (videoPlayerController!.value.isPlaying) {
+      playCtrlIcon = playerControls!.pauseIcon;
+    } else {
+      playCtrlIcon = playerControls!.playIcon;
+    }
+    notifyListeners();
+  }
+
+  ///play start resume function
+  playControlFun() {
+    if (isVideoEnd) {
+      disposeControllers();
+      videoInitialize();
+    } else if (isPlaying) {
+      videoPlayerController!.pause();
+    } else {
+      videoPlayerController!.play();
+    }
+    setFunctionVisible();
+  }
+
+  ///mute un mute function
+  muteCtrlFunction() {
+    double volume = videoPlayerController!.value.volume;
+    if (volume == 0) {
+      videoPlayerController!.setVolume(1);
+      muteCtrlIcon = playerControls!.muteIcon;
+    } else if (volume <= 1) {
+      videoPlayerController!.setVolume(0);
+      muteCtrlIcon = playerControls!.unMuteIcon;
+    }
+    notifyListeners();
+  }
+
+  ///video time based positional value
+  getVideoPositionalValues() {
+    currentPlayingPosition = videoPlayerController!.value.position;
+    totalVideoTime = videoPlayerController!.value.duration;
+    notifyListeners();
+  }
+
+  ///seek  video position
+  seekVideoPosition(int microSecond) {
+    videoPlayerController!.seekTo(
+      Duration(
+        microseconds: microSecond.toInt(),
+      ),
+    );
+    videoPlayerController!.play();
+
+    notifyListeners();
+  }
+
+  setFunctionVisible({bool visibility = true, bool always = false}) {
+    functionVisibility = visibility;
+    functionVisibleTimer?.cancel();
+    notifyListeners();
+    if (!always && functionVisibility) {
+      functionVisibleTimer = Timer(
+          Duration(
+              milliseconds: playerControls!.functionKeyVisibleMillTime.toInt()),
+          () {
+        functionVisibility = false;
+        notifyListeners();
+      });
+    }
+  }
+
+  disposeControllers() {
+    videoPlayerController!.dispose();
+    videoPlayerController = null;
   }
 }
