@@ -27,6 +27,7 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    _playerProvider = Provider.of(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: PlayerProvider()),
