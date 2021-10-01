@@ -23,15 +23,15 @@ class QPlayer extends StatefulWidget {
 }
 
 class _QPlayerState extends State<QPlayer> {
-  PlayerProvider _playerProvider = PlayerProvider();
+  PlayerProvider? _playerProvider;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: PlayerProvider()),
+        ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
       ],
-      child: _playerProvider.playerControls != null
+      child: _playerProvider!.playerControls != null
           ? MyPlayer()
           : Container(color: Colors.black),
     );
@@ -41,7 +41,7 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _playerProvider.setPlayerControls(widget.playerControls);
+      _playerProvider!.setPlayerControls(widget.playerControls);
       setState(() {});
     });
   }
