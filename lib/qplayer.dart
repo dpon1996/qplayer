@@ -33,9 +33,7 @@ class _QPlayerState extends State<QPlayer> {
       ],
       child: _playerProvider.playerControls != null
           ? MyPlayer()
-          : Container(
-              color: Colors.black,
-            ),
+          : Container(color: Colors.black),
     );
   }
 
@@ -44,10 +42,8 @@ class _QPlayerState extends State<QPlayer> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _playerProvider.setPlayerControls(widget.playerControls);
-      Future.delayed(Duration(milliseconds: 100));
-      setState(() {
-
-      });
+      Future.delayed(Duration(milliseconds: 1000));
+      setState(() {});
     });
   }
 
