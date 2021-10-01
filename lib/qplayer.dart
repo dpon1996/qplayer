@@ -31,7 +31,11 @@ class _QPlayerState extends State<QPlayer> {
       providers: [
         ChangeNotifierProvider.value(value: PlayerProvider()),
       ],
-      child: _playerProvider.playerControls != null ? MyPlayer() : Container(color: Colors.black,),
+      child: _playerProvider.playerControls != null
+          ? MyPlayer()
+          : Container(
+              color: Colors.black,
+            ),
     );
   }
 
@@ -39,10 +43,10 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _playerProvider.setPlayerControls(widget.playerControls);
-      setState(() {});
+      setState(() {
+        _playerProvider.setPlayerControls(widget.playerControls);
+      });
     });
-
   }
 
   @override
