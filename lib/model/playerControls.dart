@@ -41,7 +41,7 @@ class PlayerControls {
     this.playerStyle = PlayerStyle.basicStyle,
     this.functionKeyVisibleMillTime = 3000,
     this.quickFastMillisecond = 1000,
-    this.startingPosition = 0,
+    this.startingPosition = const Duration(),
     this.aspectRatio = 16 / 9,
     this.textStyle,
     this.mute = false,
