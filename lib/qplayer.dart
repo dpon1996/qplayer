@@ -1,4 +1,5 @@
 library qplayer;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qplayer/provider/playerProvider.dart';
@@ -26,8 +27,12 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    _playerProvider = Provider.of(context);
-    return _playerProvider.playerControls != null ? MyPlayer() : Container();
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: PlayerProvider()),
+      ],
+      child: _playerProvider.playerControls != null ? MyPlayer() : Container(),
+    );
   }
 
   @override
