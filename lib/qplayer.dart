@@ -74,13 +74,13 @@ class _QPlayerState extends State<QPlayer> {
     });
   }
 
-  @override
-  void didUpdateWidget(QPlayer oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    setState(() {
-      widget.getVideoPlayerController!(_playerProvider.videoPlayerController!);
-    });
-  }
+  // @override
+  // void didUpdateWidget(QPlayer oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   setState(() {
+  //     widget.getVideoPlayerController!(_playerProvider.videoPlayerController!);
+  //   });
+  // }
 
   @override
   void dispose() {
