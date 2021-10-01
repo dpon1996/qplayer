@@ -28,25 +28,26 @@ class _QPlayerState extends State<QPlayer> {
   @override
   Widget build(BuildContext context) {
     _playerProvider = Provider.of(context);
-    return _playerProvider.playerControls != null
-        ? MyPlayer()
-        : Container(color: Colors.black);
+    // return _playerProvider.playerControls != null
+    //     ? MyPlayer()
+    //     : Container(color: Colors.black);
 
-    // return MultiProvider(
-    //   providers: [
-    //     ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
-    //   ],
-    //   child: _playerProvider?.playerControls != null
-    //       ? MyPlayer()
-    //       : Container(color: Colors.black),
-    // );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
+      ],
+      child: _playerProvider.playerControls != null
+          ? MyPlayer()
+          : Container(color: Colors.black),
+    );
   }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      _playerProvider.setPlayerControls(widget.playerControls);
+      PlayerProvider playerProvider = Provider.of(context,listen: false);
+      playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
     });
   }
