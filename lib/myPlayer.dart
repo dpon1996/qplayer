@@ -22,7 +22,7 @@ class _MyPlayerState extends State<MyPlayer> {
 
     return Center(
       child: AspectRatio(
-        aspectRatio: _playerProvider.playerControls!.aspectRatio,
+        aspectRatio: _playerProvider.playerControls?.aspectRatio ?? 16/9 ,
         child: Container(
           color: Colors.black,
           child: Stack(
