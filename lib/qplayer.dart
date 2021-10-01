@@ -34,7 +34,7 @@ class _QPlayerState extends State<QPlayer> {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
+        ChangeNotifierProvider<PlayerProvider>.value(value: _playerProvider),
       ],
       child: _playerProvider.playerControls != null
           ? MyPlayer()
@@ -46,8 +46,8 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      PlayerProvider playerProvider = Provider.of(context,listen: false);
-      playerProvider.setPlayerControls(widget.playerControls);
+      //PlayerProvider playerProvider = Provider.of(context,listen: false);
+      _playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
     });
   }
