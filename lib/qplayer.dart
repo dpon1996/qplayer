@@ -8,6 +8,33 @@ import 'package:video_player/video_player.dart';
 import 'model/playerControls.dart';
 import 'myPlayer.dart';
 
+class QP extends StatefulWidget {
+  final PlayerControls playerControls;
+  final ValueChanged<VideoPlayerController>? getVideoPlayerController;
+
+  const QP(
+      {Key? key, required this.playerControls, this.getVideoPlayerController})
+      : super(key: key);
+
+  @override
+  _QPState createState() => _QPState();
+}
+
+class _QPState extends State<QP> {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
+      ],
+      child: QPlayer(
+        playerControls: widget.playerControls,
+        getVideoPlayerController: widget.getVideoPlayerController,
+      ),
+    );
+  }
+}
+
 class QPlayer extends StatefulWidget {
   final PlayerControls playerControls;
   final ValueChanged<VideoPlayerController>? getVideoPlayerController;
@@ -27,21 +54,10 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    // return _playerProvider.playerControls != null
-    //     ? MyPlayer()
-    //     : Container(color: Colors.black);
-
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<PlayerProvider>.value(value: PlayerProvider()),
-      ],
-      child: ChangeNotifierProvider(
-        create: (_) => PlayerProvider(),
-        child: _playerProvider.playerControls != null
-            ? MyPlayer()
-            : Container(color: Colors.black),
-      ),
-    );
+    _playerProvider = Provider.of(context);
+    return _playerProvider.playerControls != null
+        ? MyPlayer()
+        : Container(color: Colors.black);
   }
 
   @override
