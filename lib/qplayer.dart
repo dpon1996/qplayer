@@ -31,7 +31,7 @@ class _QPlayerState extends State<QPlayer> {
       providers: [
         ChangeNotifierProvider.value(value: PlayerProvider()),
       ],
-      child: _playerProvider.playerControls != null ? MyPlayer() : Container(),
+      child: _playerProvider.playerControls != null ? MyPlayer() : Container(color: Colors.blue,),
     );
   }
 

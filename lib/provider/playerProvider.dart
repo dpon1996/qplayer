@@ -39,7 +39,6 @@ class PlayerProvider extends ChangeNotifier {
     await videoPlayerController!.initialize();
     videoPlayerController!.play();
     videoPlayerController!.setLooping(playerControls!.looping);
-
     ///function visible
     setFunctionVisible();
 
