@@ -9,8 +9,8 @@ class PlayerProvider extends ChangeNotifier {
 
   setPlayerControls(PlayerControls playerCtrl) {
     playerControls = playerCtrl;
-    videoInitialize();
     notifyListeners();
+    videoInitialize();
   }
 
   ///play control icons
