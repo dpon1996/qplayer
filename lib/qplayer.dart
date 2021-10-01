@@ -43,8 +43,10 @@ class _QPlayerState extends State<QPlayer> {
   void initState() {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      _playerProvider.setPlayerControls(widget.playerControls);
+      Future.delayed(Duration(milliseconds: 100));
       setState(() {
-        _playerProvider.setPlayerControls(widget.playerControls);
+
       });
     });
   }
