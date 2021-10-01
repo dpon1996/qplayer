@@ -33,7 +33,11 @@ class _QPState extends State<QP> {
       ),
     );
   }
+
 }
+
+
+
 
 class QPlayer extends StatefulWidget {
   final PlayerControls playerControls;
@@ -67,6 +71,14 @@ class _QPlayerState extends State<QPlayer> {
       PlayerProvider playerProvider = Provider.of(context, listen: false);
       playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
+    });
+  }
+
+  @override
+  void didUpdateWidget(QPlayer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      widget.getVideoPlayerController!(_playerProvider.videoPlayerController!);
     });
   }
 
