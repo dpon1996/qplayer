@@ -68,7 +68,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   double getVideoDuration() {
     int videoDuration = 1;
-    if (playerProvider.videoPlayerController.value.initialized &&
+    if (playerProvider.videoPlayerController.value.isInitialized &&
         playerProvider.videoPlayerController.value != null) {
       videoDuration =
           playerProvider.videoPlayerController.value.duration.inMilliseconds;
@@ -78,7 +78,7 @@ class PlayerFunctionsProvider extends ChangeNotifier {
 
   double currentVideoPosition() {
     int videoPosition = 0;
-    if (playerProvider.videoPlayerController.value.initialized &&
+    if (playerProvider.videoPlayerController.value.isInitialized &&
         playerProvider.videoPlayerController.value != null) {
       videoPosition =
           playerProvider.videoPlayerController.value.position.inMilliseconds;

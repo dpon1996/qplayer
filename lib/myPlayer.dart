@@ -34,15 +34,17 @@ class _MyPlayerState extends State<MyPlayer> with WidgetsBindingObserver{
       child: Stack(
         children: [
           if (playerProvider.videoPlayerController != null &&
-              playerProvider.videoPlayerController.value.initialized)
+              playerProvider.videoPlayerController.value.isInitialized)
             Center(
               child: AspectRatio(
                 aspectRatio: playerFunctionsProvider.aspectRatioVal,
                 child: VideoPlayer(playerProvider.videoPlayerController),
               ),
             ),
+
           if (playerProvider.videoPlayerController != null)
             playerStyleSelector(),
+
           if (playerProvider.videoPlayerController == null &&
               playerProvider.videoThumbnail != null)
             Center(child: Image.network(playerProvider.videoThumbnail)),

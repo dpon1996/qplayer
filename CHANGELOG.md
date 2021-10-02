@@ -1,3 +1,8 @@
+## [0.0.5] - 19/12/2020.
+
+* fix initialized error
+
+
 ## [0.0.4] - 19/12/2020.
 
 * update basic plugins.

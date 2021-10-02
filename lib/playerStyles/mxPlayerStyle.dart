@@ -21,7 +21,7 @@ class _MxPlayerStyleState extends State<MxPlayerStyle> {
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: _backPressCtrl,
-      child: !playerPro.videoPlayerController.value.initialized?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(playerPro.loadingColor),):Stack(
+      child: !playerPro.videoPlayerController.value.isInitialized?CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(playerPro.loadingColor),):Stack(
         children: [
           Positioned(
             top: 0,
