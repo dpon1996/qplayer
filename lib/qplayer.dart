@@ -62,11 +62,15 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    _playerProvider = Provider.of(context);
     PrintString(_playerProvider.playerControls);
-    return _playerProvider.playerControls != null
-        ? MyPlayer()
-        : Container(color: Colors.black);
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: _playerProvider)
+      ],
+      child: _playerProvider.playerControls != null
+          ? MyPlayer()
+          : Container(color: Colors.black),
+    );
   }
 
   @override
