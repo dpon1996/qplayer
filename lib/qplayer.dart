@@ -79,10 +79,8 @@ class _QPlayerState extends State<QPlayer> {
       _playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
     });
-    Timer.periodic(Duration(seconds: 1), (timer) { setState(() {
-      widget.getVideoPlayerController!(_playerProvider.videoPlayerController!);
-    });});
   }
+
 
 
   @override
