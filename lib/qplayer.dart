@@ -78,15 +78,19 @@ class _QPlayerState extends State<QPlayer> {
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
-      // Timer.periodic(Duration(seconds: 1), (timer) {
-      //   if (_playerProvider.videoPlayerController != null) {
-      //     if (!mounted) return;
-      //     setState(() {
-      //       widget.getVideoPlayerController!(_playerProvider.videoPlayerController!);
-      //     });
-      //     timer.cancel();
-      //   }
-      // });
+
+      if(widget.getVideoPlayerController != null){
+        Timer.periodic(Duration(seconds: 1), (timer) {
+          if (_playerProvider.videoPlayerController != null) {
+            if (!mounted) return;
+            setState(() {
+              widget.getVideoPlayerController!(
+                  _playerProvider.videoPlayerController!);
+            });
+            timer.cancel();
+          }
+        });
+      }
     });
   }
 
