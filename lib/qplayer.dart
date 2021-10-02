@@ -87,7 +87,6 @@ class _QPlayerState extends State<QPlayer> {
           timer.cancel();
         }
       });
-
     });
   }
 
