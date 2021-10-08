@@ -34,7 +34,9 @@ class PlayerProvider extends ChangeNotifier {
     ///set icons
     playCtrlIcon = playerControls!.playIcon;
     muteCtrlIcon = playerControls!.muteIcon;
-
+    if(playerControls!.mute){
+      muteCtrlIcon = playerControls!.unMuteIcon;
+    }
     ///video player config
     videoPlayerController =
         VideoPlayerController.network(playerControls!.videoUrl);
