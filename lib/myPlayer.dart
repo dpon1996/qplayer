@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qplayer/appCtrls/printString.dart';
 import 'package:qplayer/playerUi/basicPlayer.dart';
 import 'package:qplayer/playerUi/mxPlayer.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import 'model/playerControls.dart';
 
@@ -31,10 +33,26 @@ class _MyPlayerState extends State<MyPlayer> {
               if (_playerProvider.videoPlayerController != null &&
                   _playerProvider.videoPlayerController!.value.isInitialized)
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     _playerProvider.setFunctionVisible();
                   },
-                  child: VideoPlayer(_playerProvider.videoPlayerController!),
+                  child: VisibilityDetector(
+                    key: Key("key"),
+                    onVisibilityChanged: (VisibilityInfo info) {
+                      PrintString(info.visibleFraction);
+                      var visiblePercentage = info.visibleFraction * 100;
+                      if(visiblePercentage <1){
+                        if(_playerProvider.videoPlayerController != null){
+                          _playerProvider.videoPlayerController!.pause();
+                        }
+                      }else{
+                        if(_playerProvider.videoPlayerController != null){
+                          _playerProvider.videoPlayerController!.play();
+                        }
+                      }
+                    },
+                    child: VideoPlayer(_playerProvider.videoPlayerController!),
+                  ),
                 ),
 
               ///player ui
@@ -44,9 +62,11 @@ class _MyPlayerState extends State<MyPlayer> {
 
               if (_playerProvider.videoPlayerController == null ||
                   !_playerProvider.videoPlayerController!.value.isInitialized)
-
                 Center(
-                  child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(_playerProvider.playerControls!.color),),
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        _playerProvider.playerControls!.color),
+                  ),
                 )
 
               //Container(color: Colors.black),

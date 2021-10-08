@@ -41,8 +41,6 @@ import 'myPlayer.dart';
 // }
 //
 
-
-
 class QPlayer extends StatefulWidget {
   final PlayerControls playerControls;
   final ValueChanged<VideoPlayerController>? getVideoPlayerController;
@@ -64,7 +62,7 @@ class _QPlayerState extends State<QPlayer> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: _playerProvider)
+        ChangeNotifierProvider.value(value: _playerProvider),
       ],
       child: _playerProvider.playerControls != null
           ? MyPlayer()
@@ -79,7 +77,8 @@ class _QPlayerState extends State<QPlayer> {
       _playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
 
-      if(widget.getVideoPlayerController != null){
+      ///send back video player controller
+      if (widget.getVideoPlayerController != null) {
         Timer.periodic(Duration(seconds: 1), (timer) {
           if (_playerProvider.videoPlayerController != null) {
             if (!mounted) return;
@@ -91,10 +90,9 @@ class _QPlayerState extends State<QPlayer> {
           }
         });
       }
+
     });
   }
-
-
 
   @override
   void dispose() {
