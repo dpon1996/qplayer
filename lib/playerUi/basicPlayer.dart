@@ -32,7 +32,7 @@ class _BasicPlayerState extends State<BasicPlayer> {
               ///appbar
               if (playerControls.appBar != null)
                 Positioned(
-                  top: -30,
+                  top: 0,
                   left: 0,
                   right: 0,
                   child: playerControls.appBar!,
