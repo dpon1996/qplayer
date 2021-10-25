@@ -25,6 +25,8 @@ class PlayerControls {
   final double aspectRatio;
   final TextStyle? textStyle;
   final bool mute;
+  final AppBar? appBar;
+
 
   PlayerControls({
     required this.videoUrl,
@@ -45,5 +47,6 @@ class PlayerControls {
     this.aspectRatio = 16 / 9,
     this.textStyle,
     this.mute = false,
+    this.appBar,
   });
 }

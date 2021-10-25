@@ -39,7 +39,6 @@ class _MyPlayerState extends State<MyPlayer> {
                   child: VisibilityDetector(
                     key: Key("key"),
                     onVisibilityChanged: (VisibilityInfo info) {
-                      PrintString(info.visibleFraction);
                       var visiblePercentage = info.visibleFraction * 100;
                       if(visiblePercentage <1){
                         if(_playerProvider.videoPlayerController != null){

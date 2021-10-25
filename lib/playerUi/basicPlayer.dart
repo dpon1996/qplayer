@@ -22,15 +22,25 @@ class _BasicPlayerState extends State<BasicPlayer> {
     return Visibility(
       visible: _playerProvider.functionVisibility,
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           _playerProvider.setFunctionVisible(visibility: false);
         },
         child: Container(
           color: Colors.black26,
           child: Stack(
             children: [
+              ///appbar
+              if (playerControls.appBar != null)
+                Positioned(
+                  top: -30,
+                  left: 0,
+                  right: 0,
+                  child: playerControls.appBar!,
+                ),
+
               ///video title
-              if (playerControls.videoTitle != null)
+              if (playerControls.videoTitle != null &&
+                  playerControls.appBar == null)
                 Positioned(
                   top: 8,
                   left: 8,
@@ -39,7 +49,10 @@ class _BasicPlayerState extends State<BasicPlayer> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        color: uiColor, fontSize: 16, fontWeight: FontWeight.w500),
+                      color: uiColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
 
@@ -62,22 +75,25 @@ class _BasicPlayerState extends State<BasicPlayer> {
 
               ///video progress bar
               Positioned(
-                  bottom: 20,
-                  left: 4,
-                  right: 4,
-                  child: QSlider(
-                    child: Slider(
-                      activeColor: uiColor,
-                      inactiveColor: uiColor.withOpacity(.15),
-                      value: _playerProvider.currentPlayingPosition.inMicroseconds.toDouble(),
-                      min: 0,
-                      max: _playerProvider.totalVideoTime.inMicroseconds.toDouble(),
-                      onChanged: (val) {
-                        _playerProvider.seekVideoPosition(val.toInt());
-                        _playerProvider.setFunctionVisible();
-                      },
-                    ),
-                  )),
+                bottom: 20,
+                left: 4,
+                right: 4,
+                child: QSlider(
+                  child: Slider(
+                    activeColor: uiColor,
+                    inactiveColor: uiColor.withOpacity(.15),
+                    value: _playerProvider.currentPlayingPosition.inMicroseconds
+                        .toDouble(),
+                    min: 0,
+                    max: _playerProvider.totalVideoTime.inMicroseconds
+                        .toDouble(),
+                    onChanged: (val) {
+                      _playerProvider.seekVideoPosition(val.toInt());
+                      _playerProvider.setFunctionVisible();
+                    },
+                  ),
+                ),
+              ),
 
               ///video details
               ///mute
@@ -104,7 +120,8 @@ class _BasicPlayerState extends State<BasicPlayer> {
                     ),
                     Spacer(),
                     QText(
-                      remainingTime(_playerProvider.currentPlayingPosition, _playerProvider.totalVideoTime),
+                      remainingTime(_playerProvider.currentPlayingPosition,
+                          _playerProvider.totalVideoTime),
                       style: playerControls.textStyle,
                       color: uiColor,
                     ),
