@@ -1,3 +1,16 @@
+## [0.0.8] - 21/12/2021.
+
+* fix aspect ratio error
+
+## [0.0.7] - 20/12/2021.
+
+* fix initialized error
+
+## [0.0.6] - 19/12/2020.
+
+* fix initialized error
+
+
 ## [0.0.5] - 19/12/2020.
 
 * fix initialized error

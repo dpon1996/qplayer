@@ -23,54 +23,69 @@ class _MyPlayerState extends State<MyPlayer> {
     _playerProvider = Provider.of(context);
 
     return Center(
-      child: AspectRatio(
-        aspectRatio: _playerProvider.playerControls!.aspectRatio,
-        child: Container(
-          color: Colors.black,
-          child: Stack(
-            children: [
-              ///core player
-              if (_playerProvider.videoPlayerController != null &&
-                  _playerProvider.videoPlayerController!.value.isInitialized)
-                GestureDetector(
-                  onTap: () {
-                    _playerProvider.setFunctionVisible();
-                  },
-                  child: VisibilityDetector(
-                    key: Key("key"),
-                    onVisibilityChanged: (VisibilityInfo info) {
-                      var visiblePercentage = info.visibleFraction * 100;
-                      if(visiblePercentage <1){
-                        if(_playerProvider.videoPlayerController != null){
-                          _playerProvider.videoPlayerController!.pause();
-                        }
-                      }else{
-                        if(_playerProvider.videoPlayerController != null){
-                          _playerProvider.videoPlayerController!.play();
-                        }
-                      }
-                    },
-                    child: VideoPlayer(_playerProvider.videoPlayerController!),
+      child: Container(
+        color: Colors.black,
+        child: Stack(
+          children: [
+            ///core player
+            if (_playerProvider.videoPlayerController != null &&
+                _playerProvider.videoPlayerController!.value.isInitialized)
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio: _playerProvider.playerControls!.aspectRatio,
+                    child: GestureDetector(
+                      onTap: () {
+                        _playerProvider.setFunctionVisible();
+                      },
+                      child: VisibilityDetector(
+                        key: Key("key"),
+                        onVisibilityChanged: (VisibilityInfo info) {
+                          var visiblePercentage = info.visibleFraction * 100;
+                          if (visiblePercentage < 1) {
+                            if (_playerProvider.videoPlayerController != null) {
+                              _playerProvider.videoPlayerController!.pause();
+                            }
+                          } else {
+                            if (_playerProvider.videoPlayerController != null) {
+                              _playerProvider.videoPlayerController!.play();
+                            }
+                          }
+                        },
+                        child:
+                            VideoPlayer(_playerProvider.videoPlayerController!),
+                      ),
+                    ),
                   ),
                 ),
+              ),
 
-              ///player ui
-              if (_playerProvider.videoPlayerController != null &&
-                  _playerProvider.videoPlayerController!.value.isInitialized)
-                getPlayer(),
+            ///player ui
+            if (_playerProvider.videoPlayerController != null &&
+                _playerProvider.videoPlayerController!.value.isInitialized)
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                child: getPlayer(),
+              ),
 
-              if (_playerProvider.videoPlayerController == null ||
-                  !_playerProvider.videoPlayerController!.value.isInitialized)
-                Center(
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        _playerProvider.playerControls!.color),
-                  ),
-                )
+            if (_playerProvider.videoPlayerController == null ||
+                !_playerProvider.videoPlayerController!.value.isInitialized)
+              Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                      _playerProvider.playerControls!.color),
+                ),
+              )
 
-              //Container(color: Colors.black),
-            ],
-          ),
+            //Container(color: Colors.black),
+          ],
         ),
       ),
     );

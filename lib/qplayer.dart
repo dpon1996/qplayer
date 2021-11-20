@@ -38,6 +38,7 @@ class _QPlayerState extends State<QPlayer> {
           ? MyPlayer()
           : Container(color: Colors.black),
     );
+
   }
 
   @override
