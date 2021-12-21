@@ -30,6 +30,7 @@ class QPlayer extends StatefulWidget {
 class _QPlayerState extends State<QPlayer> {
   PlayerProvider _playerProvider = PlayerProvider();
   Timer? _timer;
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -40,7 +41,6 @@ class _QPlayerState extends State<QPlayer> {
           ? MyPlayer()
           : Container(color: Colors.black),
     );
-
   }
 
   @override
@@ -52,21 +52,33 @@ class _QPlayerState extends State<QPlayer> {
 
       ///send back video player controller
       if (widget.getVideoPlayerController != null) {
-        _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+        Timer.periodic(Duration(seconds: 1), (timer) {
           if (_playerProvider.videoPlayerController != null) {
             if (!mounted) return;
             setState(() {
               widget.getVideoPlayerController!(
                   _playerProvider.videoPlayerController!);
 
-              widget.getFunctionVisibility!(true);
-
+              if (widget.getFunctionVisibility != null) {
+                widget
+                    .getFunctionVisibility!(_playerProvider.functionVisibility);
+              }
             });
             timer.cancel();
           }
         });
       }
 
+      if (widget.getFunctionVisibility != null) {
+        _timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+          if (_playerProvider.videoPlayerController != null) {
+            if (!mounted) return;
+            setState(() {
+              widget.getFunctionVisibility!(_playerProvider.functionVisibility);
+            });
+          }
+        });
+      }
     });
   }
 
