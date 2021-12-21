@@ -14,11 +14,13 @@ import 'myPlayer.dart';
 class QPlayer extends StatefulWidget {
   final PlayerControls playerControls;
   final ValueChanged<VideoPlayerController>? getVideoPlayerController;
+  final ValueChanged<bool>? getFunctionVisibility;
 
   const QPlayer({
     Key? key,
     required this.playerControls,
     this.getVideoPlayerController,
+    this.getFunctionVisibility,
   }) : super(key: key);
 
   @override
@@ -27,7 +29,7 @@ class QPlayer extends StatefulWidget {
 
 class _QPlayerState extends State<QPlayer> {
   PlayerProvider _playerProvider = PlayerProvider();
-
+  Timer? _timer;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -50,12 +52,15 @@ class _QPlayerState extends State<QPlayer> {
 
       ///send back video player controller
       if (widget.getVideoPlayerController != null) {
-        Timer.periodic(Duration(seconds: 1), (timer) {
+        _timer = Timer.periodic(Duration(seconds: 1), (timer) {
           if (_playerProvider.videoPlayerController != null) {
             if (!mounted) return;
             setState(() {
               widget.getVideoPlayerController!(
                   _playerProvider.videoPlayerController!);
+
+              widget.getFunctionVisibility!(_playerProvider.functionVisibility);
+
             });
             timer.cancel();
           }
@@ -68,6 +73,7 @@ class _QPlayerState extends State<QPlayer> {
   @override
   void dispose() {
     _playerProvider.disposeControllers();
+    _timer?.cancel();
     super.dispose();
   }
 }
