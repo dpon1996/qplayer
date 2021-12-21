@@ -70,7 +70,7 @@ class _QPlayerState extends State<QPlayer> {
       }
 
       if (widget.getFunctionVisibility != null) {
-        _timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+        _timer = Timer.periodic(Duration(milliseconds: 200), (timer) {
           if (_playerProvider.videoPlayerController != null) {
             if (!mounted) return;
             setState(() {
