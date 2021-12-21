@@ -59,7 +59,7 @@ class _QPlayerState extends State<QPlayer> {
               widget.getVideoPlayerController!(
                   _playerProvider.videoPlayerController!);
 
-              widget.getFunctionVisibility!(_playerProvider.functionVisibility);
+              widget.getFunctionVisibility!(true);
 
             });
             timer.cancel();
