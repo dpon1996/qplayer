@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qplayer/appCtrls/printString.dart';
 import 'package:qplayer/provider/playerProvider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wakelock/wakelock.dart';
 
 import 'model/playerControls.dart';
 import 'myPlayer.dart';
@@ -46,6 +47,7 @@ class _QPlayerState extends State<QPlayer> {
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _playerProvider.setPlayerControls(widget.playerControls);
       setState(() {});
@@ -84,6 +86,7 @@ class _QPlayerState extends State<QPlayer> {
 
   @override
   void dispose() {
+    Wakelock.disable();
     _playerProvider.disposeControllers();
     _timer?.cancel();
     super.dispose();

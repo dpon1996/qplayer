@@ -1,3 +1,8 @@
+## [0.0.9] - 21/12/2021.
+
+* controls visibility function added
+
+
 ## [0.0.8] - 21/12/2021.
 
 * fix aspect ratio error
