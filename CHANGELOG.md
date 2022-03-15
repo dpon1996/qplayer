@@ -1,3 +1,8 @@
+## [1.0.0] - 15/03/2022.
+
+* update basic plugin
+
+
 ## [0.0.9] - 21/12/2021.
 
 * controls visibility function added
