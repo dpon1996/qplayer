@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:qplayer/model/playerControls.dart';
 import 'package:video_player/video_player.dart';
@@ -7,10 +8,9 @@ class PlayerProvider extends ChangeNotifier {
   ///initialize video player settings
   PlayerControls? playerControls;
 
-
-
-  setPlayerControls(PlayerControls playerCtrl) {
+  setInitialControls(PlayerControls playerCtrl, VideoPlayerController ctrl) {
     playerControls = playerCtrl;
+    videoPlayerController = ctrl;
     notifyListeners();
     videoInitialize();
   }
@@ -34,15 +34,15 @@ class PlayerProvider extends ChangeNotifier {
     ///set icons
     playCtrlIcon = playerControls!.playIcon;
     muteCtrlIcon = playerControls!.muteIcon;
-    if(playerControls!.mute){
+    if (playerControls!.mute) {
       muteCtrlIcon = playerControls!.unMuteIcon;
     }
+
     ///video player config
-    videoPlayerController =
-        VideoPlayerController.network(playerControls!.videoUrl);
     await videoPlayerController!.initialize();
     videoPlayerController!.play();
     videoPlayerController!.setLooping(playerControls!.looping);
+
     ///function visible
     setFunctionVisible();
 
@@ -142,8 +142,8 @@ class PlayerProvider extends ChangeNotifier {
     if (!always && functionVisibility) {
       functionVisibleTimer = Timer(
           Duration(
-              milliseconds: playerControls!.functionKeyVisibleMillTime.toInt()),
-          () {
+            milliseconds: playerControls!.functionKeyVisibleMillTime.toInt(),
+          ), () {
         functionVisibility = false;
         notifyListeners();
       });

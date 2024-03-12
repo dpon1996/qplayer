@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qplayer/appCtrls/printString.dart';
 import 'package:qplayer/playerUi/basicPlayer.dart';
 import 'package:qplayer/playerUi/mxPlayer.dart';
 import 'package:qplayer/provider/playerProvider.dart';
@@ -94,7 +92,7 @@ class _MyPlayerState extends State<MyPlayer> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   Widget getPlayer() {

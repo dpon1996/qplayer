@@ -7,7 +7,6 @@ enum PlayerStyle {
 }
 
 class PlayerControls {
-  final  String videoUrl;
   final String? videoTitle;
   final bool looping;
   final String? videoThumbnail;
@@ -27,9 +26,7 @@ class PlayerControls {
   final bool mute;
   final AppBar? appBar;
 
-
   PlayerControls({
-    required this.videoUrl,
     this.videoTitle,
     this.videoThumbnail,
     this.looping = false,

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 String convertToDisplayTimeFormat(Duration val) {
   return val.toString().split(".").first;
