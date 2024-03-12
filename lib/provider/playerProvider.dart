@@ -93,7 +93,6 @@ class PlayerProvider extends ChangeNotifier {
   ///play start resume function
   playControlFun() {
     if (isVideoEnd) {
-      disposeControllers();
       videoInitialize();
     } else if (isPlaying) {
       videoPlayerController!.pause();
@@ -148,9 +147,5 @@ class PlayerProvider extends ChangeNotifier {
         notifyListeners();
       });
     }
-  }
-
-  disposeControllers() {
-    videoPlayerController?.dispose();
   }
 }

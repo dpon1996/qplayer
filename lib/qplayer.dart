@@ -68,7 +68,6 @@ class _QPlayerState extends State<QPlayer> {
   @override
   void dispose() {
     Wakelock.disable();
-    _playerProvider.disposeControllers();
     _timer?.cancel();
     super.dispose();
   }
