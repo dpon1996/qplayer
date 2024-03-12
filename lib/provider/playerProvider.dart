@@ -149,4 +149,8 @@ class PlayerProvider extends ChangeNotifier {
       });
     }
   }
+
+  disposeControllers() {
+    videoPlayerController?.dispose();
+  }
 }
